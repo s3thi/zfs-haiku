@@ -1,2 +1,4 @@
 BUILD_DIR = [ FDirName $(TOP) build ] ;
 GENERATED_DIR = [ FDirName $(TOP) generated.$(OSPLAT) ] ;
+
+include [ FDirName $(BUILD_DIR) MainBuildRules ] ;
