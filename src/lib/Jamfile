@@ -1,0 +1,5 @@
+SubDir TOP src lib ;
+
+SubInclude TOP src lib libavl ;
+SubInclude TOP src lib libnvpair ;
+
