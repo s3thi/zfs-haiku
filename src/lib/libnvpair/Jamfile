@@ -1,1 +1,12 @@
 SubDir TOP src lib libnvpair ;
+
+local sourceDir = [ FDirName $(COMMON_DIR) nvpair ] ;
+SEARCH_SOURCE += $(sourceDir) ;
+
+StaticLibrary libnvpair.a :
+	libnvpair.c
+	nvpair_alloc_system.c
+	nvpair_alloc_fixed.c
+	nvpair.c
+	;
+
