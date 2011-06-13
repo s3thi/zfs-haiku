@@ -1,4 +1,11 @@
 SubDir TOP src lib libavl ;
 
+# TODO: Add a check here for other architectures.
+SubDirHdrs [ FDirName $(TOP) src arch intel ] ;
+SubDirHdrs [ FDirName $(TOP) src include ] ;
 
+local sourceDir = [ FDirName $(COMMON_DIR) avl ] ;
+SEARCH_SOURCE += $(sourceDir) ;
+
+StaticLibrary libavl.a : avl.c ;
 
