@@ -93,6 +93,9 @@
 #include <sys/avl.h>
 #include <sys/cmn_err.h>
 
+// Haiku specific includes.
+#include <stddef.h>
+
 /*
  * Small arrays to translate between balance (or diff) values and child indeces.
  *
