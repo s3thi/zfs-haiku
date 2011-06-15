@@ -2,6 +2,7 @@ SubDir TOP src lib libnvpair ;
 
 local sourceDir = [ FDirName $(COMMON_DIR) nvpair ] ;
 SEARCH_SOURCE += $(sourceDir) ;
+SubDirCcFlags -DTEXT_DOMAIN=\\\"None\\\" ;
 
 StaticLibrary libnvpair.a :
 	libnvpair.c
