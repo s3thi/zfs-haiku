@@ -154,7 +154,8 @@ NVLIST_PRINTCTL_SVDECL(nvlist_prtctlop_int64, int64_t);
 NVLIST_PRINTCTL_SVDECL(nvlist_prtctlop_uint64, uint64_t);
 NVLIST_PRINTCTL_SVDECL(nvlist_prtctlop_double, double);
 NVLIST_PRINTCTL_SVDECL(nvlist_prtctlop_string, char *);
-NVLIST_PRINTCTL_SVDECL(nvlist_prtctlop_hrtime, hrtime_t);
+// Haiku doesn't have hrtime.
+// NVLIST_PRINTCTL_SVDECL(nvlist_prtctlop_hrtime, hrtime_t);
 NVLIST_PRINTCTL_SVDECL(nvlist_prtctlop_nvlist, nvlist_t *);
 
 #undef	NVLIST_PRINTCTL_SVDECL	/* was just for "clarity" above */

@@ -71,7 +71,8 @@ struct nvlist_printops {
 	DEFINEOP(print_uint64, uint64_t);
 	DEFINEOP(print_double, double);
 	DEFINEOP(print_string, char *);
-	DEFINEOP(print_hrtime, hrtime_t);
+//	Haiku doesn't have hrtime.
+//	DEFINEOP(print_hrtime, hrtime_t);
 	DEFINEOP(print_nvlist, nvlist_t *);
 	DEFINEARROP(print_boolean_array, boolean_t *);
 	DEFINEARROP(print_byte_array, uchar_t *);
@@ -212,7 +213,8 @@ NVLIST_PRTFUNC(int64, int64_t, longlong_t, "%lld")
 NVLIST_PRTFUNC(uint64, uint64_t, u_longlong_t, "0x%llx")
 NVLIST_PRTFUNC(double, double, double, "0x%llf")
 NVLIST_PRTFUNC(string, char *, char *, "%s")
-NVLIST_PRTFUNC(hrtime, hrtime_t, hrtime_t, "0x%llx")
+// Haiku doesn't have hrtime.
+// NVLIST_PRTFUNC(hrtime, hrtime_t, hrtime_t, "0x%llx")
 
 /*
  * Generate functions to print array-valued nvlist members.
@@ -439,7 +441,8 @@ NVLIST_PRINTCTL_REPLACE(int64, int64_t)
 NVLIST_PRINTCTL_REPLACE(uint64, uint64_t)
 NVLIST_PRINTCTL_REPLACE(double, double)
 NVLIST_PRINTCTL_REPLACE(string, char *)
-NVLIST_PRINTCTL_REPLACE(hrtime, hrtime_t)
+// Haiku doesn't have hrtime.
+// NVLIST_PRINTCTL_REPLACE(hrtime, hrtime_t)
 NVLIST_PRINTCTL_REPLACE(nvlist, nvlist_t *)
 
 #define	NVLIST_PRINTCTL_AREPLACE(type, vtype) \
@@ -488,7 +491,8 @@ static const struct nvlist_printops defprtops = {
 	{ nvprint_uint64, NULL },
 	{ nvprint_double, NULL },
 	{ nvprint_string, NULL },
-	{ nvprint_hrtime, NULL },
+// Haiku doesn't have hrtime.
+//	{ nvprint_hrtime, NULL },
 	{ nvprint_nvlist, NULL },
 	{ nvaprint_boolean_array, NULL },
 	{ nvaprint_byte_array, NULL },
@@ -725,12 +729,13 @@ nvlist_print_with_indent(nvlist_t *nvl, nvlist_prtctl_t pctl)
 			ARENDER(pctl, string_array, nvl, name, val, nelem);
 			break;
 		}
+		/* Haiku doesn't have hrtime.
 		case DATA_TYPE_HRTIME: {
 			hrtime_t val;
 			(void) nvpair_value_hrtime(nvp, &val);
 			RENDER(pctl, hrtime, nvl, name, val);
 			break;
-		}
+		}*/
 		case DATA_TYPE_NVLIST: {
 			nvlist_t *val;
 			(void) nvpair_value_nvlist(nvp, &val);
@@ -1236,7 +1241,8 @@ nvpair_value_match_regex(nvpair_t *nvp, int ai,
 			return (1);
 		break;
 	}
-	case DATA_TYPE_HRTIME:
+//  Haiku doesn't have hrtime.
+//	case DATA_TYPE_HRTIME:
 	case DATA_TYPE_NVLIST:
 	case DATA_TYPE_NVLIST_ARRAY:
 	case DATA_TYPE_BOOLEAN:
