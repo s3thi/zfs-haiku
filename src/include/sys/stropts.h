@@ -36,8 +36,12 @@
 #include <sys/types.h>
 /*
  * For FMNAMESZ define.
- */
 #include <sys/conf.h>
+ */
+
+// You really think I'm going to try to fix that entire header just so I can
+// have that one define? Another Haiku-specific change.
+#define FMNAMESZ    8
 
 #ifdef	__cplusplus
 extern "C" {
