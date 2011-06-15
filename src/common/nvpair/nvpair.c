@@ -403,7 +403,8 @@ i_validate_type_nelem(data_type_t type, uint_t nelem)
 	case DATA_TYPE_INT64:
 	case DATA_TYPE_UINT64:
 	case DATA_TYPE_STRING:
-	case DATA_TYPE_HRTIME:
+//	Haiku does not have hrtime.
+//	case DATA_TYPE_HRTIME:
 	case DATA_TYPE_NVLIST:
 #if !defined(_KERNEL)
 	case DATA_TYPE_DOUBLE:
@@ -814,9 +815,11 @@ i_get_value_size(data_type_t type, const void *data, uint_t nelem)
 			}
 		}
 		break;
+	/* Haiku does not have hrtime.
 	case DATA_TYPE_HRTIME:
 		value_sz = sizeof (hrtime_t);
 		break;
+	*/
 	case DATA_TYPE_NVLIST:
 		value_sz = NV_ALIGN(sizeof (nvlist_t));
 		break;
@@ -1129,11 +1132,13 @@ nvlist_add_string_array(nvlist_t *nvl, const char *name,
 	return (nvlist_add_common(nvl, name, DATA_TYPE_STRING_ARRAY, n, a));
 }
 
+/* Haiku does not have hrtime.
 int
 nvlist_add_hrtime(nvlist_t *nvl, const char *name, hrtime_t val)
 {
 	return (nvlist_add_common(nvl, name, DATA_TYPE_HRTIME, 1, &val));
 }
+*/
 
 int
 nvlist_add_nvlist(nvlist_t *nvl, const char *name, nvlist_t *val)
@@ -1272,7 +1277,8 @@ nvpair_value_common(nvpair_t *nvp, data_type_t type, uint_t *nelem, void *data)
 	case DATA_TYPE_UINT32:
 	case DATA_TYPE_INT64:
 	case DATA_TYPE_UINT64:
-	case DATA_TYPE_HRTIME:
+//  Haiku does not have hrtime.
+//	case DATA_TYPE_HRTIME:
 #if !defined(_KERNEL)
 	case DATA_TYPE_DOUBLE:
 #endif
@@ -1516,11 +1522,13 @@ nvlist_lookup_nvlist_array(nvlist_t *nvl, const char *name,
 	return (nvlist_lookup_common(nvl, name, DATA_TYPE_NVLIST_ARRAY, n, a));
 }
 
+/* Haiku does not have hrtime.
 int
 nvlist_lookup_hrtime(nvlist_t *nvl, const char *name, hrtime_t *val)
 {
 	return (nvlist_lookup_common(nvl, name, DATA_TYPE_HRTIME, NULL, val));
 }
+*/
 
 int
 nvlist_lookup_pairs(nvlist_t *nvl, int flag, ...)
@@ -1551,7 +1559,8 @@ nvlist_lookup_pairs(nvlist_t *nvl, int flag, ...)
 		case DATA_TYPE_UINT32:
 		case DATA_TYPE_INT64:
 		case DATA_TYPE_UINT64:
-		case DATA_TYPE_HRTIME:
+//		Haiku does not have hrtime.
+//		case DATA_TYPE_HRTIME:
 		case DATA_TYPE_STRING:
 		case DATA_TYPE_NVLIST:
 #if !defined(_KERNEL)
@@ -1960,11 +1969,13 @@ nvpair_value_nvlist_array(nvpair_t *nvp, nvlist_t ***val, uint_t *nelem)
 	return (nvpair_value_common(nvp, DATA_TYPE_NVLIST_ARRAY, nelem, val));
 }
 
+/* Haiku does not have hrtime.
 int
 nvpair_value_hrtime(nvpair_t *nvp, hrtime_t *val)
 {
 	return (nvpair_value_common(nvp, DATA_TYPE_HRTIME, NULL, val));
 }
+*/
 
 /*
  * Add specified pair to the list.
@@ -3007,12 +3018,12 @@ nvs_xdr_nvp_op(nvstream_t *nvs, nvpair_t *nvp)
 		ret = xdr_u_longlong_t(xdr, (void *)buf);
 		break;
 
+/*	Haiku does not have hrtime.
 	case DATA_TYPE_HRTIME:
-		/*
-		 * NOTE: must expose the definition of hrtime_t here
-		 */
+		 NOTE: must expose the definition of hrtime_t here
 		ret = xdr_longlong_t(xdr, (void *)buf);
 		break;
+*/
 #if !defined(_KERNEL)
 	case DATA_TYPE_DOUBLE:
 		ret = xdr_double(xdr, (void *)buf);
@@ -3122,7 +3133,8 @@ nvs_xdr_nvp_size(nvstream_t *nvs, nvpair_t *nvp, size_t *size)
 
 	case DATA_TYPE_INT64:
 	case DATA_TYPE_UINT64:
-	case DATA_TYPE_HRTIME:
+//	Haiku does not have hrtime.
+//	case DATA_TYPE_HRTIME:
 #if !defined(_KERNEL)
 	case DATA_TYPE_DOUBLE:
 #endif

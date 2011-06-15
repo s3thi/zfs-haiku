@@ -37,6 +37,9 @@
 #include <strings.h>
 #endif
 
+// Haiku specific includes.
+#include <stddef.h>
+
 /*
  * This allocator is very simple.
  *  - it uses a pre-allocated buffer for memory allocations.
