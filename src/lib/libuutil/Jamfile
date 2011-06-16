@@ -1,0 +1,20 @@
+SubDir TOP src lib libuutil ;
+
+local sourceDir = [ FDirName $(COMMON_DIR) avl ] ;
+SEARCH_SOURCE += $(sourceDir) ;
+
+SubDirHdrs [ FDirName $(TOP) src lib libuutil common ] ;
+
+StaticLibrary libuutil.a : 
+	avl.c
+	common/uu_alloc.c
+	common/uu_avl.c 
+	common/uu_dprintf.c
+	common/uu_ident.c
+	common/uu_list.c
+	common/uu_misc.c
+	common/uu_open.c
+	common/uu_pname.c
+	common/uu_strtoint.c
+	;
+
