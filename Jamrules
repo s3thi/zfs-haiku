@@ -1,8 +1,17 @@
 BUILD_DIR = [ FDirName $(TOP) build ] ;
-GENERATED_DIR = [ FDirName $(TOP) generated.$(OSPLAT) ] ;
+
+GENERATED_DIR = [ FDirName $(TOP) debug.$(OSPLAT) ] ;
+DISTRO_DIR = [ FDirName $(TOP) debug.$(OSPLAT) ] ;
+if ($(NDEBUG)) {
+    GENERATED_DIR = [ FDirName $(TOP) release.$(OSPLAT) ] ;
+    DISTRO_DIR = [ FDirName $(TOP) release.$(OSPLAT) ] ;
+}
 
 # TODO: Add a check here for other architectures.
 HDRS += [ FDirName $(TOP) src arch intel ] ;
 HDRS += [ FDirName $(TOP) src include ] ;
 
 include [ FDirName $(BUILD_DIR) MainBuildRules ] ;
+include [ FDirName $(BUILD_DIR) ConfigRules ] ;
+include [ FDirName $(BUILD_DIR) BuildSettings ] ;
+
