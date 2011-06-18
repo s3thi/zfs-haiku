@@ -8,8 +8,8 @@ if ($(NDEBUG)) {
 }
 
 # TODO: Add a check here for other architectures.
-HDRS += [ FDirName $(TOP) src arch intel ] ;
-HDRS += [ FDirName $(TOP) src include ] ;
+HDRS += [ FDirName $(TOP) src lib libsolcompat arch intel ] ;
+HDRS += [ FDirName $(TOP) src lib libsolcompat include ] ;
 
 include [ FDirName $(BUILD_DIR) MainBuildRules ] ;
 include [ FDirName $(BUILD_DIR) ConfigRules ] ;
