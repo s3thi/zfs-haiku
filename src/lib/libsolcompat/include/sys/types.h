@@ -3,6 +3,7 @@
 
 #include_next <sys/types.h>
 #include_next <stdint.h>
+#include <sys/feature_tests.h>
 
 /* POSIX extensions. */
 typedef	unsigned char	uchar_t;
