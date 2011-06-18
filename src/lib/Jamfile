@@ -1,7 +1,5 @@
 SubDir TOP src lib ;
 
-COMMON_DIR = [ FDirName $(TOP) src common ] ;
-
 SubInclude TOP src lib libavl ;
 SubInclude TOP src lib libnvpair ;
 SubInclude TOP src lib libuutil ;
