@@ -10,6 +10,8 @@ SetConfigVar LOCATE_MAIN_TARGET : TOP src lib libnvpair
 	: [ FDirName $(DISTRO_DIR) lib libnvpair ] ;
 SetConfigVar LOCATE_MAIN_TARGET : TOP src lib libuutil
 	: [ FDirName $(DISTRO_DIR) lib libuutil ] ;
+SetConfigVar LOCATE_MAIN_TARGET : TOP src lib libumem
+	: [ FDirName $(DISTRO_DIR) lib libumem ] ;
 
 rule SetUpSubDirBuildSettings {
 	# SetUpSubDirBuildSettings <dir> ;
