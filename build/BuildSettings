@@ -26,7 +26,20 @@ rule SetUpSubDirBuildSettings {
 
 	OBJECTS_DIR = [ FDirName $(DISTRO_DIR) objects ] ;
 
-	# CCFLAGS += -Wall -Wextra -Wno-unused-parameter -fno-strict-aliasing ;
+	# This is how Solaris builds it. Plus, of course, Wfatal-errors.
+	CCFLAGS +=  -Wall
+				-Wno-unknown-pragmas
+				-Wno-missing-braces
+				-Wno-sign-compare
+				-Wno-parentheses
+				-Wno-uninitialized
+				-Wno-implicit-function-declaration
+				-Wno-unused
+				-Wno-trigraphs
+				-Wno-char-subscripts
+				-Wno-switch
+				-Wfatal-errors
+				-std=gnu99 ;
 	# C++FLAGS += -Wall -Wextra -Wno-unused-parameter -fno-strict-aliasing ;
 	# if ($(NDEBUG)) {
 	#	OPTIM ?= -O2 -DNDEBUG=1 ;
