@@ -1,0 +1,113 @@
+SubDir TOP src lib libzpool ;
+
+ZFS_COMMON_DIR   = [ FDirName $(TOP) src lib libzfscommon ] ;
+ZPOOL_COMMON_DIR = [ FDirName $(TOP) src lib libzpool common ] ;
+ZFS_DIR   = [ FDirName $(TOP) src lib libzpool zfs ] ;
+
+SEARCH_SOURCE += $(ZFS_COMMON_DIR) + $(ZPOOL_COMMON_DIR) + $(ZFS_DIR) ;
+
+StaticLibrary libzpool.a : 
+		
+		# ZFS sources
+		arc.c
+		bplist.c
+		bpobj.c
+		dbuf.c
+		ddt.c
+		ddt_zap.c
+		gzip.c
+		lzjb.c
+		metaslab.c
+		refcount.c
+		rrwlock.c
+		sa.c
+		sha256.c
+		space_map.c
+		txg.c
+		uberblock.c
+		unique.c
+		zle.c
+		zrlock.c
+		
+		dmu.c
+		dmu_diff.c
+		dmu_object.c
+		dmu_objset.c
+		dmu_send.c
+		dmu_traverse.c
+		dmu_tx.c
+		dmu_zfetch.c
+		
+		dnode.c
+		dnode_sync.c
+		
+		dsl_dataset.c
+		dsl_deadlist.c
+		dsl_deleg.c
+		dsl_dir.c
+		dsl_pool.c
+		dsl_prop.c
+		dsl_scan.c
+		dsl_synctask.c
+		
+		spa.c
+		spa_config.c
+		spa_errlog.c
+		spa_history.c
+		spa_misc.c
+		
+		vdev.c
+		vdev_cache.c
+		vdev_disk.c
+		vdev_file.c
+		vdev_label.c
+		vdev_mirror.c
+		vdev_missing.c
+		vdev_queue.c
+		vdev_raidz.c
+		vdev_root.c
+		
+		zap.c
+		zap_leaf.c
+		zap_micro.c
+		
+		zfs_acl.c
+		zfs_byteswap.c
+		zfs_ctldir.c
+		zfs_debug.c
+		zfs_dir.c
+		zfs_fm.c
+		zfs_fuid.c
+		zfs_ioctl.c
+		zfs_log.c
+		zfs_onexit.c
+		zfs_replay.c
+		zfs_rlock.c
+		zfs_sa.c
+		zfs_vfsops.c
+		zfs_vnops.c
+		zfs_znode.c
+		
+		zil.c
+		
+		zio.c
+		zio_checksum.c
+		zio_compress.c
+		zio_inject.c
+
+		zvol.c
+
+		# From libzpool/common/
+		kernel.c
+		taskq.c
+		util.c
+
+		# ZFS common sources from libzfscommon
+		zfs_comutil.c
+		zfs_deleg.c
+		zfs_fletcher.c
+		zfs_namecheck.c
+		zfs_prop.c
+		zpool_prop.c
+		zprop_common.c ;
+
