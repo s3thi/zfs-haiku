@@ -34,8 +34,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/debug.h>
-// <thread.h> is not available on Haiku.
-// #include <thread.h>
+#include <thread.h>
 #include <unistd.h>
 #include <ctype.h>
 
