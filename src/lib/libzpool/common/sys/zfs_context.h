@@ -76,6 +76,9 @@ extern "C" {
 #include <sys/sysevent/dev.h>
 #include <sys/sunddi.h>
 
+// Haiku specific includes.
+#include <sys/va_list.h>
+
 /*
  * Debugging
  */
@@ -239,8 +242,8 @@ typedef struct kmutex {
  * Argh -- we have to get cheesy here because the kernel and userland
  * have different signatures for the same routine.
  */
-extern int _mutex_init(mutex_t *mp, int type, void *arg);
-extern int _mutex_destroy(mutex_t *mp);
+// extern int _mutex_init(mutex_t *mp, int type, void *arg);
+// extern int _mutex_destroy(mutex_t *mp);
 
 #define	mutex_init(mp, b, c, d)		zmutex_init((kmutex_t *)(mp))
 #define	mutex_destroy(mp)		zmutex_destroy((kmutex_t *)(mp))

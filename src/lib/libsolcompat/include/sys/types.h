@@ -41,5 +41,10 @@ typedef long		t_scalar_t;	/* historical versions */
 typedef unsigned long	t_uscalar_t;
 #endif	/* defined(_LP64) || defined(_I32LPx) */
 
+typedef short           pri_t;
+typedef longlong_t      offset_t;
+typedef u_longlong_t    u_offset_t;
+typedef id_t            zoneid_t;
+
 #endif /* _SOLARIS_SYS_TYPES_H_ */
 

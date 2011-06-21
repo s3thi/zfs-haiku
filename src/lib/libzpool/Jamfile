@@ -6,6 +6,8 @@ ZFS_DIR   = [ FDirName $(TOP) src lib libzpool zfs ] ;
 
 SEARCH_SOURCE += $(ZFS_COMMON_DIR) + $(ZPOOL_COMMON_DIR) + $(ZFS_DIR) ;
 
+SubDirHdrs [ FDirName $(TOP) src lib libzfscommon include ] ;
+
 StaticLibrary libzpool.a : 
 		
 		# ZFS sources
