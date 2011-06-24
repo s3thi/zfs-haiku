@@ -1332,7 +1332,7 @@ arc_buf_add_ref(arc_buf_t *buf, void* tag)
 
 	ASSERT(hdr->b_state == arc_mru || hdr->b_state == arc_mfu);
 	add_reference(hdr, hash_lock, tag);
-	DTRACE_PROBE1(arc__hit, arc_buf_hdr_t *, hdr);
+	// DTRACE_PROBE1(arc__hit, arc_buf_hdr_t *, hdr);
 	arc_access(hdr, hash_lock);
 	mutex_exit(hash_lock);
 	ARCSTAT_BUMP(arcstat_hits);
@@ -1688,7 +1688,7 @@ arc_evict(arc_state_t *state, uint64_t spa, int64_t bytes, boolean_t recycle,
 				ASSERT(HDR_IN_HASH_TABLE(ab));
 				ab->b_flags |= ARC_IN_HASH_TABLE;
 				ab->b_flags &= ~ARC_BUF_AVAILABLE;
-				DTRACE_PROBE1(arc__evict, arc_buf_hdr_t *, ab);
+				// DTRACE_PROBE1(arc__evict, arc_buf_hdr_t *, ab);
 			}
 			if (!have_lock)
 				mutex_exit(hash_lock);
@@ -1785,7 +1785,7 @@ top:
 				arc_hdr_destroy(ab);
 			}
 
-			DTRACE_PROBE1(arc__delete, arc_buf_hdr_t *, ab);
+			// DTRACE_PROBE1(arc__delete, arc_buf_hdr_t *, ab);
 			if (bytes >= 0 && bytes_deleted >= bytes)
 				break;
 		} else if (bytes < 0) {
@@ -2358,7 +2358,7 @@ arc_access(arc_buf_hdr_t *buf, kmutex_t *hash_lock)
 
 		ASSERT(buf->b_arc_access == 0);
 		buf->b_arc_access = ddi_get_lbolt();
-		DTRACE_PROBE1(new_state__mru, arc_buf_hdr_t *, buf);
+		// DTRACE_PROBE1(new_state__mru, arc_buf_hdr_t *, buf);
 		arc_change_state(arc_mru, buf, hash_lock);
 
 	} else if (buf->b_state == arc_mru) {
@@ -2395,7 +2395,7 @@ arc_access(arc_buf_hdr_t *buf, kmutex_t *hash_lock)
 			 * most frequently used state.
 			 */
 			buf->b_arc_access = now;
-			DTRACE_PROBE1(new_state__mfu, arc_buf_hdr_t *, buf);
+			// DTRACE_PROBE1(new_state__mfu, arc_buf_hdr_t *, buf);
 			arc_change_state(arc_mfu, buf, hash_lock);
 		}
 		ARCSTAT_BUMP(arcstat_mru_hits);
@@ -2411,10 +2411,10 @@ arc_access(arc_buf_hdr_t *buf, kmutex_t *hash_lock)
 			new_state = arc_mru;
 			if (refcount_count(&buf->b_refcnt) > 0)
 				buf->b_flags &= ~ARC_PREFETCH;
-			DTRACE_PROBE1(new_state__mru, arc_buf_hdr_t *, buf);
+			// DTRACE_PROBE1(new_state__mru, arc_buf_hdr_t *, buf);
 		} else {
 			new_state = arc_mfu;
-			DTRACE_PROBE1(new_state__mfu, arc_buf_hdr_t *, buf);
+			// DTRACE_PROBE1(new_state__mfu, arc_buf_hdr_t *, buf);
 		}
 
 		buf->b_arc_access = ddi_get_lbolt();
@@ -2455,7 +2455,7 @@ arc_access(arc_buf_hdr_t *buf, kmutex_t *hash_lock)
 		}
 
 		buf->b_arc_access = ddi_get_lbolt();
-		DTRACE_PROBE1(new_state__mfu, arc_buf_hdr_t *, buf);
+		// DTRACE_PROBE1(new_state__mfu, arc_buf_hdr_t *, buf);
 		arc_change_state(new_state, buf, hash_lock);
 
 		ARCSTAT_BUMP(arcstat_mfu_ghost_hits);
@@ -2465,7 +2465,7 @@ arc_access(arc_buf_hdr_t *buf, kmutex_t *hash_lock)
 		 */
 
 		buf->b_arc_access = ddi_get_lbolt();
-		DTRACE_PROBE1(new_state__mfu, arc_buf_hdr_t *, buf);
+		// DTRACE_PROBE1(new_state__mfu, arc_buf_hdr_t *, buf);
 		arc_change_state(arc_mfu, buf, hash_lock);
 	} else {
 		ASSERT(!"invalid arc state");
@@ -2739,7 +2739,7 @@ top:
 		    refcount_count(&hdr->b_refcnt) == 0) {
 			hdr->b_flags |= ARC_PREFETCH;
 		}
-		DTRACE_PROBE1(arc__hit, arc_buf_hdr_t *, hdr);
+		// DTRACE_PROBE1(arc__hit, arc_buf_hdr_t *, hdr);
 		arc_access(hdr, hash_lock);
 		if (*arc_flags & ARC_L2CACHE)
 			hdr->b_flags |= ARC_L2CACHE;
@@ -2837,8 +2837,8 @@ top:
 		mutex_exit(hash_lock);
 
 		ASSERT3U(hdr->b_size, ==, size);
-		DTRACE_PROBE4(arc__miss, arc_buf_hdr_t *, hdr, blkptr_t *, bp,
-		    uint64_t, size, zbookmark_t *, zb);
+		// DTRACE_PROBE4(arc__miss, arc_buf_hdr_t *, hdr, blkptr_t *, bp,
+		//    uint64_t, size, zbookmark_t *, zb);
 		ARCSTAT_BUMP(arcstat_misses);
 		ARCSTAT_CONDSTAT(!(hdr->b_flags & ARC_PREFETCH),
 		    demand, prefetch, hdr->b_type != ARC_BUFC_METADATA,
@@ -2859,7 +2859,7 @@ top:
 			    !(l2arc_noprefetch && HDR_PREFETCH(hdr))) {
 				l2arc_read_callback_t *cb;
 
-				DTRACE_PROBE1(l2arc__hit, arc_buf_hdr_t *, hdr);
+				// DTRACE_PROBE1(l2arc__hit, arc_buf_hdr_t *, hdr);
 				ARCSTAT_BUMP(arcstat_l2_hits);
 
 				cb = kmem_zalloc(sizeof (l2arc_read_callback_t),
@@ -2880,8 +2880,8 @@ top:
 				    ZIO_FLAG_DONT_CACHE | ZIO_FLAG_CANFAIL |
 				    ZIO_FLAG_DONT_PROPAGATE |
 				    ZIO_FLAG_DONT_RETRY, B_FALSE);
-				DTRACE_PROBE2(l2arc__read, vdev_t *, vd,
-				    zio_t *, rzio);
+				// DTRACE_PROBE2(l2arc__read, vdev_t *, vd,
+				//    zio_t *, rzio);
 				ARCSTAT_INCR(arcstat_l2_read_bytes, size);
 
 				if (*arc_flags & ARC_NOWAIT) {
@@ -2895,8 +2895,8 @@ top:
 
 				/* l2arc read error; goto zio_read() */
 			} else {
-				DTRACE_PROBE1(l2arc__miss,
-				    arc_buf_hdr_t *, hdr);
+				// DTRACE_PROBE1(l2arc__miss,
+				//    arc_buf_hdr_t *, hdr);
 				ARCSTAT_BUMP(arcstat_l2_misses);
 				if (HDR_L2_WRITING(hdr))
 					ARCSTAT_BUMP(arcstat_l2_rw_clash);
@@ -2906,8 +2906,8 @@ top:
 			if (vd != NULL)
 				spa_config_exit(spa, SCL_L2ARC, vd);
 			if (l2arc_ndev != 0) {
-				DTRACE_PROBE1(l2arc__miss,
-				    arc_buf_hdr_t *, hdr);
+				// DTRACE_PROBE1(l2arc__miss,
+				//    arc_buf_hdr_t *, hdr);
 				ARCSTAT_BUMP(arcstat_l2_misses);
 			}
 		}
@@ -3919,8 +3919,8 @@ l2arc_write_done(zio_t *zio)
 	ASSERT(head != NULL);
 	buflist = dev->l2ad_buflist;
 	ASSERT(buflist != NULL);
-	DTRACE_PROBE2(l2arc__iodone, zio_t *, zio,
-	    l2arc_write_callback_t *, cb);
+	// DTRACE_PROBE2(l2arc__iodone, zio_t *, zio,
+	//    l2arc_write_callback_t *, cb);
 
 	if (zio->io_error != 0)
 		ARCSTAT_BUMP(arcstat_l2_writes_error);
@@ -4122,8 +4122,8 @@ l2arc_evict(l2arc_dev_t *dev, uint64_t distance, boolean_t all)
 	} else {
 		taddr = dev->l2ad_hand + distance;
 	}
-	DTRACE_PROBE4(l2arc__evict, l2arc_dev_t *, dev, list_t *, buflist,
-	    uint64_t, taddr, boolean_t, all);
+	// DTRACE_PROBE4(l2arc__evict, l2arc_dev_t *, dev, list_t *, buflist,
+	//    uint64_t, taddr, boolean_t, all);
 
 top:
 	mutex_enter(&l2arc_buflist_mtx);
@@ -4342,8 +4342,8 @@ l2arc_write_buffers(spa_t *spa, l2arc_dev_t *dev, uint64_t target_sz)
 			    NULL, NULL, ZIO_PRIORITY_ASYNC_WRITE,
 			    ZIO_FLAG_CANFAIL, B_FALSE);
 
-			DTRACE_PROBE2(l2arc__write, vdev_t *, dev->l2ad_vdev,
-			    zio_t *, wzio);
+			// DTRACE_PROBE2(l2arc__write, vdev_t *, dev->l2ad_vdev,
+			//    zio_t *, wzio);
 			(void) zio_nowait(wzio);
 
 			/*
