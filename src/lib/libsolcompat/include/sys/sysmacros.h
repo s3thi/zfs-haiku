@@ -214,7 +214,7 @@ extern unsigned char bcd_to_byte[256];
 /*
  * Macros for counting and rounding.
  */
-#define	howmany(x, y)	(((x)+((y)-1))/(y))
+// #define	howmany(x, y)	(((x)+((y)-1))/(y))
 #define	roundup(x, y)	((((x)+((y)-1))/(y))*(y))
 
 /*

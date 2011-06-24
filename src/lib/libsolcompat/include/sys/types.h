@@ -50,5 +50,16 @@ typedef longlong_t      offset_t;
 typedef u_longlong_t    u_offset_t;
 typedef id_t            zoneid_t;
 
+/*
+ * Typedefs for dev_t components.
+ */
+#if defined(_LP64) || defined(_I32LPx)
+typedef uint_t  major_t;    /* major part of device number */
+typedef uint_t  minor_t;    /* minor part of device number */
+#else
+typedef ulong_t major_t;    /* (historical version) */
+typedef ulong_t minor_t;    /* (historical version) */
+#endif
+
 #endif /* _SOLARIS_SYS_TYPES_H_ */
 
