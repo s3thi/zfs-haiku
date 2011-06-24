@@ -5,6 +5,10 @@
 #include_next <stdint.h>
 #include <sys/feature_tests.h>
 
+#ifndef _INT64_TYPE
+#define _INT64_TYPE
+#endif
+
 /* POSIX extensions. */
 typedef	unsigned char	uchar_t;
 typedef	unsigned short	ushort_t;
