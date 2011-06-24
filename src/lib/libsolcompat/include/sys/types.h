@@ -4,6 +4,7 @@
 #include_next <sys/types.h>
 #include_next <stdint.h>
 #include <sys/feature_tests.h>
+#include <sys/param.h>
 
 #ifndef _INT64_TYPE
 #define _INT64_TYPE
