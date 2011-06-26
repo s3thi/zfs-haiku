@@ -826,8 +826,13 @@ dmu_prealloc(objset_t *os, uint64_t object, uint64_t offset, uint64_t size,
 	dmu_buf_rele_array(dbp, numbufs, FTAG);
 }
 
+#if 0
 /*
  * DMU support for xuio
+ * TODO: what are UIO extensions? Looks like something Solaris-specific.
+ * In any case, Haiku's uio.h has no xuio_* calls, so I'm removing this
+ * entire next section. It appears optional, and zfs-fuse makes do without
+ * it.
  */
 kstat_t *xuio_ksp = NULL;
 
@@ -948,6 +953,7 @@ xuio_stat_wbuf_nocopy()
 {
 	XUIOSTAT_BUMP(xuiostat_wbuf_nocopy);
 }
+#endif /* xuio support for DMU */
 
 #ifdef _KERNEL
 int
@@ -955,7 +961,7 @@ dmu_read_uio(objset_t *os, uint64_t object, uio_t *uio, uint64_t size)
 {
 	dmu_buf_t **dbp;
 	int numbufs, i, err;
-	xuio_t *xuio = NULL;
+	// xuio_t *xuio = NULL;
 
 	/*
 	 * NB: we could do this block-at-a-time, but it's nice
@@ -966,8 +972,8 @@ dmu_read_uio(objset_t *os, uint64_t object, uio_t *uio, uint64_t size)
 	if (err)
 		return (err);
 
-	if (uio->uio_extflg == UIO_XUIO)
-		xuio = (xuio_t *)uio;
+	// if (uio->uio_extflg == UIO_XUIO)
+	//     xuio = (xuio_t *)uio;
 
 	for (i = 0; i < numbufs; i++) {
 		int tocpy;
@@ -979,6 +985,7 @@ dmu_read_uio(objset_t *os, uint64_t object, uio_t *uio, uint64_t size)
 		bufoff = uio->uio_loffset - db->db_offset;
 		tocpy = (int)MIN(db->db_size - bufoff, size);
 
+#if 0
 		if (xuio) {
 			dmu_buf_impl_t *dbi = (dmu_buf_impl_t *)db;
 			arc_buf_t *dbuf_abuf = dbi->db_buf;
@@ -993,10 +1000,12 @@ dmu_read_uio(objset_t *os, uint64_t object, uio_t *uio, uint64_t size)
 				XUIOSTAT_BUMP(xuiostat_rbuf_nocopy);
 			else
 				XUIOSTAT_BUMP(xuiostat_rbuf_copied);
-		} else {
-			err = uiomove((char *)db->db_data + bufoff, tocpy,
-			    UIO_READ, uio);
 		}
+#endif 
+	
+	    err = uiomove((char *)db->db_data + bufoff, tocpy,
+		    UIO_READ, uio);
+		
 		if (err)
 			break;
 
@@ -1217,7 +1226,7 @@ dmu_assign_arcbuf(dmu_buf_t *handle, uint64_t offset, arc_buf_t *buf,
 		dbuf_rele(db, FTAG);
 		dmu_write(os, object, offset, blksz, buf->b_data, tx);
 		dmu_return_arcbuf(buf);
-		XUIOSTAT_BUMP(xuiostat_wbuf_copied);
+		//XUIOSTAT_BUMP(xuiostat_wbuf_copied);
 	}
 }
 
@@ -1740,7 +1749,7 @@ dmu_init(void)
 {
 	zfs_dbgmsg_init();
 	sa_cache_init();
-	xuio_stat_init();
+	//xuio_stat_init();
 	dmu_objset_init();
 	dnode_init();
 	dbuf_init();
@@ -1758,7 +1767,7 @@ dmu_fini(void)
 	dbuf_fini();
 	dnode_fini();
 	dmu_objset_fini();
-	xuio_stat_fini();
+	//xuio_stat_fini();
 	sa_cache_fini();
 	zfs_dbgmsg_fini();
 }
