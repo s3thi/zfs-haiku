@@ -500,7 +500,11 @@ extern void delay(clock_t ticks);
 #define	minclsyspri	60
 #define	maxclsyspri	99
 
-#define	CPU_SEQID	(thr_self() & (max_ncpus - 1))
+// Since Haiku's pthread_t is opaque, we call thr_id_integral to get
+// an integral thread ID.
+// TODO: this probably won't "just work" in Haiku. I need to find
+// out what it does.
+#define	CPU_SEQID	(thr_id_integral(thr_self()) & (max_ncpus - 1))
 
 #define	kcred		NULL
 #define	CRED()		NULL
