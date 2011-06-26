@@ -64,6 +64,10 @@ typedef pthread_rwlock_t rwlock_t;
 #define cond_signal(l)           pthread_cond_signal(l)
 #define cond_broadcast(l)        pthread_cond_broadcast(l)
 
+// Haiku's pthread_t is an opaque type. We need to call get_pthread_thread_id
+// to get Haiku to give us an integral ID as opposed to a struct.
+#define thr_id_integral(t)       get_pthread_thread_id(t)
+
 #define zfsfuse_thr_main()       (0)
 
 #define THR_BOUND     0x00000001  /* = PTHREAD_SCOPE_SYSTEM */
