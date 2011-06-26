@@ -83,8 +83,8 @@ zrl_add(zrlock_t *zrl)
 			ASSERT((int32_t)n >= 0);
 #ifdef	ZFS_DEBUG
 			if (zrl->zr_owner == curthread) {
-				DTRACE_PROBE2(zrlock__reentry,
-				    zrlock_t *, zrl, uint32_t, n);
+				//DTRACE_PROBE2(zrlock__reentry,
+				//    zrlock_t *, zrl, uint32_t, n);
 			}
 			zrl->zr_owner = curthread;
 			zrl->zr_caller = zc;
