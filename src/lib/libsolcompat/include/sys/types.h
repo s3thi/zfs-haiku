@@ -50,6 +50,7 @@ typedef short           pri_t;
 typedef longlong_t      offset_t;
 typedef u_longlong_t    u_offset_t;
 typedef id_t            zoneid_t;
+typedef ushort_t        o_mode_t;          /* old file attribute type */
 
 /*
  * Typedefs for dev_t components.
