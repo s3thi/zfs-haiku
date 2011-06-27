@@ -5,6 +5,7 @@
 #include_next <sys/time.h>
 
 #define MICROSEC    1000000
+#define NANOSEC     1000000000
 
 #endif /* _SOL_SYS_TIME_H */
 
