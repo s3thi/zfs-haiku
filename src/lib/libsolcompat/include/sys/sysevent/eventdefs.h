@@ -15,6 +15,7 @@
 #define ESC_ZFS_SCRUB_START "ESC_ZFS_scrub_start"
 #define ESC_ZFS_SCRUB_FINISH    "ESC_ZFS_scrub_finish"
 #define ESC_ZFS_VDEV_SPARE  "ESC_ZFS_vdev_spare"
+#define ESC_ZFS_BOOTFS_VDEV_ATTACH  "ESC_ZFS_bootfs_vdev_attach"
 
 #endif /* _SYS_EVENTDEFS_H */
 
