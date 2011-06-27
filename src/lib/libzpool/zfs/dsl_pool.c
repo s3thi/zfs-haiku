@@ -332,12 +332,12 @@ dsl_pool_sync(dsl_pool_t *dp, uint64_t txg)
 		list_insert_tail(&dp->dp_synced_datasets, ds);
 		dsl_dataset_sync(ds, zio, tx);
 	}
-	DTRACE_PROBE(pool_sync__1setup);
+	//DTRACE_PROBE(pool_sync__1setup);
 	err = zio_wait(zio);
 
 	write_time = gethrtime() - start;
 	ASSERT(err == 0);
-	DTRACE_PROBE(pool_sync__2rootzio);
+	//DTRACE_PROBE(pool_sync__2rootzio);
 
 	for (ds = list_head(&dp->dp_synced_datasets); ds;
 	    ds = list_next(&dp->dp_synced_datasets, ds))
@@ -375,7 +375,7 @@ dsl_pool_sync(dsl_pool_t *dp, uint64_t txg)
 		ASSERT(spa_sync_pass(dp->dp_spa) == 1);
 		dsl_sync_task_group_sync(dstg, tx);
 	}
-	DTRACE_PROBE(pool_sync__3task);
+	//DTRACE_PROBE(pool_sync__3task);
 
 	start = gethrtime();
 	while (dd = txg_list_remove(&dp->dp_dirty_dirs, txg))
@@ -393,8 +393,8 @@ dsl_pool_sync(dsl_pool_t *dp, uint64_t txg)
 		spa_set_rootblkptr(dp->dp_spa, &dp->dp_meta_rootbp);
 	}
 	write_time += gethrtime() - start;
-	DTRACE_PROBE2(pool_sync__4io, hrtime_t, write_time,
-	    hrtime_t, dp->dp_read_overhead);
+	//DTRACE_PROBE2(pool_sync__4io, hrtime_t, write_time,
+	//    hrtime_t, dp->dp_read_overhead);
 	write_time -= dp->dp_read_overhead;
 
 	dmu_tx_commit(tx);
