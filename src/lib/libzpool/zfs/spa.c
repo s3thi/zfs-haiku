@@ -5002,7 +5002,8 @@ spa_async_probe(spa_t *spa, vdev_t *vd)
 static void
 spa_async_autoexpand(spa_t *spa, vdev_t *vd)
 {
-	sysevent_id_t eid;
+	// No sysevent on Haiku.
+	// sysevent_id_t eid;
 	nvlist_t *attr;
 	char *physpath;
 
@@ -5020,6 +5021,7 @@ spa_async_autoexpand(spa_t *spa, vdev_t *vd)
 	physpath = kmem_zalloc(MAXPATHLEN, KM_SLEEP);
 	(void) snprintf(physpath, MAXPATHLEN, "/devices%s", vd->vdev_physpath);
 
+	/* zfs-haiku: No sysevent on Haiku.
 	VERIFY(nvlist_alloc(&attr, NV_UNIQUE_NAME, KM_SLEEP) == 0);
 	VERIFY(nvlist_add_string(attr, DEV_PHYS_PATH, physpath) == 0);
 
@@ -5027,6 +5029,7 @@ spa_async_autoexpand(spa_t *spa, vdev_t *vd)
 	    ESC_DEV_DLE, attr, &eid, DDI_SLEEP);
 
 	nvlist_free(attr);
+	*/
 	kmem_free(physpath, MAXPATHLEN);
 }
 
@@ -5833,6 +5836,7 @@ spa_has_active_shared_spare(spa_t *spa)
 void
 spa_event_notify(spa_t *spa, vdev_t *vd, const char *name)
 {
+#if 0
 #ifdef _KERNEL
 	sysevent_t		*ev;
 	sysevent_attr_list_t	*attr = NULL;
@@ -5878,5 +5882,6 @@ done:
 	if (attr)
 		sysevent_free_attr(attr);
 	sysevent_free(ev);
+#endif
 #endif
 }
