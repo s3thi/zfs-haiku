@@ -5,4 +5,3 @@
 #include <sys/feature_tests.h>
 
 #endif /* _SOLARIS_SYS_INTTYPES_H_ */
-
