@@ -51,10 +51,31 @@ typedef longlong_t      offset_t;
 typedef u_longlong_t    u_offset_t;
 typedef id_t            zoneid_t;
 typedef ushort_t        o_mode_t;          /* old file attribute type */
+typedef short           o_dev_t;           /* old device type */
 typedef ulong_t         pgcnt_t;           /* number of pages */
 typedef longlong_t      diskaddr_t;
 typedef __haiku_int64   fsblkcnt64_t;
 typedef __haiku_int64   fsfilcnt64_t;
+
+#ifdef _LONG_LONG_LTOH
+typedef union {
+    longlong_t  _f; /* Full 64 bit disk address value */
+    struct {
+        int32_t _l; /* lower 32 bits of disk address value */
+        int32_t _u; /* upper 32 bits of disk address value */
+    } _p;
+} lldaddr_t;
+#endif
+ 
+#ifdef _LONG_LONG_HTOL
+typedef union {
+    longlong_t  _f; /* Full 64 bit disk address value */
+    struct {
+        int32_t _u; /* upper 32 bits of disk address value */
+        int32_t _l; /* lower 32 bits of disk address value */
+    } _p;
+} lldaddr_t;
+#endif
 
 /*
  * Typedefs for dev_t components.
