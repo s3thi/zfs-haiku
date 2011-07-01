@@ -12,7 +12,6 @@ COMMON_DIR = [ FDirName $(TOP) src lib libsolcompat common ] ;
 # TODO: Add a check here for other architectures.
 HDRS += [ FDirName $(TOP) src lib libsolcompat arch intel ] ;
 HDRS += [ FDirName $(TOP) src lib libsolcompat include ] ;
-HDRS += [ FDirName $(TOP) src lib libsolkerncompat include ] ;
 
 include [ FDirName $(BUILD_DIR) MainBuildRules ] ;
 include [ FDirName $(BUILD_DIR) ConfigRules ] ;
