@@ -4,6 +4,8 @@ local sourceDir = [ FDirName $(COMMON_DIR) nvpair ] ;
 SEARCH_SOURCE += $(sourceDir) ;
 SubDirCcFlags -DTEXT_DOMAIN=\\\"None\\\" ;
 
+SubDirHdrs [ FDirName $(TOP) src lib libnvpair include ] ;
+
 StaticLibrary libnvpair.a :
 	libnvpair.c
 	nvpair_alloc_system.c
