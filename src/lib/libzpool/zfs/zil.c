@@ -1420,7 +1420,7 @@ zil_commit_writer(zilog_t *zilog)
 			lwb = zil_create(zilog);
 	}
 
-	DTRACE_PROBE1(zil__cw1, zilog_t *, zilog);
+	//DTRACE_PROBE1(zil__cw1, zilog_t *, zilog);
 	while (itx = list_head(&zilog->zl_itx_commit_list)) {
 		txg = itx->itx_lr.lrc_txg;
 		ASSERT(txg);
@@ -1431,7 +1431,7 @@ zil_commit_writer(zilog_t *zilog)
 		kmem_free(itx, offsetof(itx_t, itx_lr)
 		    + itx->itx_lr.lrc_reclen);
 	}
-	DTRACE_PROBE1(zil__cw2, zilog_t *, zilog);
+	//DTRACE_PROBE1(zil__cw2, zilog_t *, zilog);
 
 	/* write the last block out */
 	if (lwb != NULL && lwb->lwb_zio != NULL)
