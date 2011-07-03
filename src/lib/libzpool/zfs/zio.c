@@ -35,6 +35,9 @@
 #include <sys/arc.h>
 #include <sys/ddt.h>
 
+// zfs-haiku
+#include <sys/vmem.h>
+
 /*
  * ==========================================================================
  * I/O priority table
