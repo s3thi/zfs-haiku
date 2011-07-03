@@ -327,7 +327,7 @@ vn_open(char *path, int x1, int flags, int mode, vnode_t **vpp, int x2, int x3)
 	vnode_t *vp;
 	int old_umask;
 	char realpath[MAXPATHLEN];
-	struct stat64 st;
+	struct stat st;
 
 	/*
 	 * If we're accessing a real disk from userland, we need to use
@@ -344,7 +344,7 @@ vn_open(char *path, int x1, int flags, int mode, vnode_t **vpp, int x2, int x3)
 		fd = open64(path, O_RDONLY);
 		if (fd == -1)
 			return (errno);
-		if (fstat64(fd, &st) == -1) {
+		if (fstat(fd, &st) == -1) {
 			close(fd);
 			return (errno);
 		}
@@ -356,7 +356,7 @@ vn_open(char *path, int x1, int flags, int mode, vnode_t **vpp, int x2, int x3)
 			    dsk + 1);
 	} else {
 		(void) sprintf(realpath, "%s", path);
-		if (!(flags & FCREAT) && stat64(realpath, &st) == -1)
+		if (!(flags & FCREAT) && stat(realpath, &st) == -1)
 			return (errno);
 	}
 
@@ -375,7 +375,7 @@ vn_open(char *path, int x1, int flags, int mode, vnode_t **vpp, int x2, int x3)
 	if (fd == -1)
 		return (errno);
 
-	if (fstat64(fd, &st) == -1) {
+	if (fstat(fd, &st) == -1) {
 		close(fd);
 		return (errno);
 	}
@@ -454,9 +454,9 @@ vn_close(vnode_t *vp)
 int
 fop_getattr(vnode_t *vp, vattr_t *vap)
 {
-	struct stat64 st;
+	struct stat st;
 
-	if (fstat64(vp->v_fd, &st) == -1) {
+	if (fstat(vp->v_fd, &st) == -1) {
 		close(vp->v_fd);
 		return (errno);
 	}
@@ -674,10 +674,10 @@ kobj_close_file(struct _buf *file)
 int
 kobj_get_filesize(struct _buf *file, uint64_t *size)
 {
-	struct stat64 st;
+	struct stat st;
 	vnode_t *vp = (vnode_t *)file->_fd;
 
-	if (fstat64(vp->v_fd, &st) == -1) {
+	if (fstat(vp->v_fd, &st) == -1) {
 		vn_close(vp);
 		return (errno);
 	}
