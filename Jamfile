@@ -1,4 +1,4 @@
 SubDir TOP ;
 
 SubInclude TOP src lib ;
-
+SubInclude TOP src cmd ;

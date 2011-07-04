@@ -1,0 +1,15 @@
+SubDir TOP src cmd ztest ;
+
+SubDirHdrs [ FDirName $(TOP) src lib libnvpair include ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libzpool common ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libzpool zfs ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libzfscommon include ] ;
+
+Application ztest :
+	ztest.c :
+	libavl.a
+	libnvpair.a
+	libumem.a
+	libuutil.a
+	libzpool.a
+	;
