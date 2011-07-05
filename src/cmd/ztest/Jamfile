@@ -12,4 +12,9 @@ Application ztest :
 	libumem.a
 	libuutil.a
 	libzpool.a
+	root
+	#crypto
+	#pthread
+	z
 	;
+

@@ -130,7 +130,7 @@ extern int aok;
 #undef	assert
 #define	assert	zverify
 
-extern void __assert(const char *, const char *, int);
+//extern void __assert(const char *, const char *, int);
 
 #ifdef lint
 #define	VERIFY3_IMPL(x, y, z, t)	if (x == z) ((void)0)
