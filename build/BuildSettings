@@ -4,6 +4,8 @@
 MKDIR = mkdir -p ;
 
 # Modify the main target dirs
+SetConfigVar LOCATE_MAIN_TARGET : TOP src lib libsolcompat
+	: [ FDirName $(DISTRO_DIR) lib libsolcompat ] ;
 SetConfigVar LOCATE_MAIN_TARGET : TOP src lib libavl
 	: [ FDirName $(DISTRO_DIR) lib libavl ] ;
 SetConfigVar LOCATE_MAIN_TARGET : TOP src lib libnvpair

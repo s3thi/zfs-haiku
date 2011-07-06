@@ -1,0 +1,5 @@
+SubDir TOP src lib libsolcompat ;
+
+StaticLibrary libsolcompat.a : 
+	xdr.c
+	;
