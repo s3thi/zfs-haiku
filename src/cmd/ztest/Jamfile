@@ -7,9 +7,9 @@ SubDirHdrs [ FDirName $(TOP) src lib libzfscommon include ] ;
 
 Application ztest :
 	ztest.c :
-	libsolcompat.a
 	libavl.a
 	libnvpair.a
+	libsolcompat.a
 	libumem.a
 	libuutil.a
 	libzpool.a
