@@ -1,0 +1,15 @@
+SubDir TOP src lib libxdr ;
+
+SubDirHdrs $(TOP) src lib libxdr include ;
+
+StaticLibrary libxdr.a :
+	xdr.c
+	xdr_array.c
+	xdr_float.c
+	xdr_mem.c
+	xdr_rec.c
+	xdr_refer.c
+	xdr_sizeof.c
+	xdr_stdio.c
+	mt_misc.c
+	;
