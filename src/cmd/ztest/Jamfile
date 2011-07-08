@@ -9,7 +9,7 @@ Application ztest :
 	ztest.c :
 	libavl.a
 	libnvpair.a
-	libsolcompat.a
+	libxdr.a
 	libumem.a
 	libuutil.a
 	libzpool.a
