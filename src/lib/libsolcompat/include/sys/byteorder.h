@@ -48,6 +48,12 @@
 #include <asm/byteorder.h>
 #endif
 
+// zfs-haiku: for some reason, _ASM_INLINES isn't defined during
+// compile time on Haiku.
+#if defined(__HAIKU__)
+#include <asm/byteorder.h>
+#endif
+
 #ifdef	__cplusplus
 extern "C" {
 #endif
