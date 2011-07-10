@@ -24,7 +24,7 @@
  */
 
 #include <sys/types.h>
-#include <netinet/in.h>
+#include <sys/byteorder.h>
 
 /*
  * htonll(), ntohll(), htonl(), ntohl(), htons(), ntohs()
