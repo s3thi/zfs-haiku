@@ -7,12 +7,12 @@ SubDirHdrs [ FDirName $(TOP) src lib libzfscommon include ] ;
 
 Application ztest :
 	ztest.c :
+	libzpool.a
 	libavl.a
 	libnvpair.a
 	libxdr.a
 	libumem.a
 	libuutil.a
-	libzpool.a
 	root
 	#crypto
 	#pthread
