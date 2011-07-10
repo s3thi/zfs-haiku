@@ -12,4 +12,5 @@ StaticLibrary libxdr.a :
 	xdr_sizeof.c
 	xdr_stdio.c
 	mt_misc.c
+	byteorder.c
 	;
