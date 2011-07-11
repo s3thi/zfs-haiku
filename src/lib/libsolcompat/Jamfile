@@ -1,2 +1,7 @@
 SubDir TOP src lib libsolcompat ;
 
+StaticLibrary libsolcompat.a : 
+	list.c
+	time.c
+	;
+
