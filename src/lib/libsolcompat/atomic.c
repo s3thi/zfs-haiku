@@ -1,8 +1,10 @@
 #include <atomic.h>
 #include <pthread.h>
 
+
 static pthread_mutex_t atomic_cas_ptr_mtx;
- 
+
+
 static __attribute__((constructor)) void
 atomic_cas_ptr_mtx_init(void)
 {
@@ -84,8 +86,8 @@ atomic_cas_ptr(volatile void *target, void *cmp,  void *newval)
 	trg = ((void **)(uintptr_t)(volatile void *)(target));
 	oldval = *trg;
 	if (oldval == cmp)
-		*trg = newval;	
+		*trg = newval;
 	pthread_mutex_unlock(&atomic_cas_ptr_mtx);
-	
+
 	return (oldval);
 }
