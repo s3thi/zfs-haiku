@@ -25,6 +25,10 @@
 
 #include_next <fcntl.h>
 
+#define open64   open
+#define pread64  pread
+#define pwrite64 pwrite
+
 /*
  * Workaround stupid glibc bug, since it defines O_LARGEFILE to be 0
  * on 64-bit compilations... How are we supposed to know if O_LARGEFILE
