@@ -271,10 +271,13 @@ typedef int krw_t;
 #define	RW_DEFAULT	USYNC_THREAD
 
 #undef RW_READ_HELD
-#define	RW_READ_HELD(x)		_rw_read_held(&(x)->rw_lock)
+// zfs-haiku: don't need this.
+// #define RW_READ_HELD(x) _rw_read_held(&(x)->rw_lock)
 
+// zfs-haiku: does the current thread hold the rwlock?
+// rwlock itself is a pthreads rw_lock.
 #undef RW_WRITE_HELD
-#define	RW_WRITE_HELD(x)	_rw_write_held(&(x)->rw_lock)
+#define	RW_WRITE_HELD(x)    ((x)->rw_owner == curthread)
 
 extern void rw_init(krwlock_t *rwlp, char *name, int type, void *arg);
 extern void rw_destroy(krwlock_t *rwlp);
