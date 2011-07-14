@@ -77,7 +77,7 @@ StaticLibrary libzpool.a :
 #		zfs_acl.c
 		zfs_byteswap.c
 #		zfs_ctldir.c
-#		zfs_debug.c
+		zfs_debug.c
 #		zfs_dir.c
 		zfs_fm.c
 		zfs_fuid.c

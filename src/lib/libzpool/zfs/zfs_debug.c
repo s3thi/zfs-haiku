@@ -80,7 +80,8 @@ zfs_dbgmsg(const char *fmt, ...)
 	(void) vsnprintf(zdm->zdm_msg, size + 1, fmt, adx);
 	va_end(adx);
 
-	DTRACE_PROBE1(zfs__dbgmsg, char *, zdm->zdm_msg);
+	// zfs-haiku: remove probe.
+	//DTRACE_PROBE1(zfs__dbgmsg, char *, zdm->zdm_msg);
 
 	mutex_enter(&zfs_dbgmsgs_lock);
 	list_insert_tail(&zfs_dbgmsgs, zdm);
