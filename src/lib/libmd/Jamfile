@@ -1,0 +1,10 @@
+SubDir TOP src lib libmd ;
+
+SubDirHdrs [ FDirName $(TOP) src lib libmd include ] ;
+
+StaticLibrary libmd.a :
+	md4.c
+	md5.c
+	sha1.c
+	sha2.c
+	;
