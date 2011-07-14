@@ -4,5 +4,6 @@ StaticLibrary libsolcompat.a :
 	list.c
 	time.c
 	atomic.c
+	getexecname.c
 	;
 
