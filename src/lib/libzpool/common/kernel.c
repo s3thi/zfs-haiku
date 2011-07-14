@@ -141,6 +141,13 @@ mutex_tryenter(kmutex_t *mp)
 	}
 }
 
+int _mutex_held(mutex_t *a) {
+    int ret = pthread_mutex_trylock(a);
+    if (ret == 0) // it was locked when it was supposed to be already locked !
+	pthread_mutex_unlock(a);
+    return ret; // != 0 if already locked (EBUSY)
+}
+
 void
 mutex_exit(kmutex_t *mp)
 {
