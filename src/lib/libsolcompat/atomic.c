@@ -1,4 +1,13 @@
 #include <atomic.h>
+#include <pthread.h>
+
+static pthread_mutex_t atomic_cas_ptr_mtx;
+ 
+static __attribute__((constructor)) void
+atomic_cas_ptr_mtx_init(void)
+{
+    pthread_mutex_init(&atomic_cas_ptr_mtx, NULL);
+}
 
 
 void
@@ -65,8 +74,18 @@ atomic_cas_64(volatile uint64_t *target, uint64_t cmp, uint64_t newval)
 	return atomic_test_and_set64(target, newval, cmp);
 }
 
-void *
-atomic_cas_ptr(volatile void *target, void *cmp, void *newval)
-{
 
+void *
+atomic_cas_ptr(volatile void *target, void *cmp,  void *newval)
+{
+    void *oldval, **trg;
+
+	pthread_mutex_lock(&atomic_cas_ptr_mtx);
+	trg = ((void **)(uintptr_t)(volatile void *)(target));
+	oldval = *trg;
+	if (oldval == cmp)
+		*trg = newval;	
+	pthread_mutex_unlock(&atomic_cas_ptr_mtx);
+	
+	return (oldval);
 }
