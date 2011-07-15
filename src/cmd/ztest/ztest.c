@@ -5506,7 +5506,12 @@ main(int argc, char **argv)
 		if (pid == 0) {	/* child */
 			struct rlimit rl = { 1024, 1024 };
 			(void) setrlimit(RLIMIT_NOFILE, &rl);
-			(void) enable_extended_FILE_stdio(-1, -1);
+			// zfs-haiku: this next call enables a single Solaris process to
+			// open up to 65536 file descriptors. It's not available on Haiku.
+			// However, it's possible to set the max number of file descriptors
+			// to 8192 (2 ^ 13) on Haiku using the setrlimit call. Instead of
+			// doing that now, I will wait for ztest_run to fail.
+			// (void) enable_extended_FILE_stdio(-1, -1);
 			ztest_run(zs);
 			exit(0);
 		}
