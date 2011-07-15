@@ -6,5 +6,6 @@ StaticLibrary libsolcompat.a :
 	atomic.c
 	getexecname.c
 	u8_textprep.c
+	thread.c
 	;
 

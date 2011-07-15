@@ -32,7 +32,7 @@
 #include <assert.h>
 
 /*
- * Compatibility thread stuff needed for Solaris -> Linux port
+ * Compatibility thread stuff needed for Solaris -> Haiku port
  */
 
 typedef pthread_t thread_t;
@@ -68,36 +68,25 @@ typedef pthread_rwlock_t rwlock_t;
 // to get Haiku to give us an integral ID as opposed to a struct.
 #define thr_id_integral(t)       get_pthread_thread_id(t)
 
-#define zfsfuse_thr_main()       (0)
-
+// zfs-haiku: these constants might need some changes. TODO.
 #define THR_BOUND     0x00000001  /* = PTHREAD_SCOPE_SYSTEM */
 #define THR_NEW_LWP   0x00000002
 #define THR_DETACHED  0x00000040  /* = PTHREAD_CREATE_DETACHED */
 #define THR_SUSPENDED 0x00000080
 #define THR_DAEMON    0x00000100
 
-static inline int thr_create(void *stack_base, size_t stack_size, void *(*start_func) (void*), void *arg, long flags, thread_t *new_thread_ID) {
-    pthread_t id;
-    if (!new_thread_ID)
-	new_thread_ID = &id;
-	assert(stack_base == NULL);
-	assert(stack_size == 0);
-	assert((flags & ~THR_BOUND & ~THR_DETACHED) == 0);
+int thr_create(void *stack_base, size_t stack_size,
+			   void *(*start_func) (void*), void *arg, long flags,
+			   thread_t *new_thread_ID);
 
-	pthread_attr_t attr;
-	pthread_attr_init(&attr);
-
-	if(flags & THR_DETACHED)
-		pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
-
-	if (flags & THR_BOUND)
-	    pthread_attr_setscope(&attr,PTHREAD_SCOPE_PROCESS);
-
-	int ret = pthread_create(new_thread_ID, &attr, start_func, arg);
-
-	pthread_attr_destroy(&attr);
-
-	return ret;
-}
+/*
+ * The  thr_main() function  returns one of the following:
+ *
+ *		 1	if the calling thread is the main thread
+ *		 0	if the calling thread is not the main thread
+ *		-1	if libthread is not linked in or thread initialization has not
+ *			completed
+ */
+int thr_main(void);
 
 #endif
