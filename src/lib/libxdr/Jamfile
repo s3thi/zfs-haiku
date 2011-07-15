@@ -13,4 +13,5 @@ StaticLibrary libxdr.a :
 	xdr_stdio.c
 	mt_misc.c
 	byteorder.c
+	key_call.c
 	;
