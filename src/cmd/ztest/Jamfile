@@ -13,9 +13,10 @@ Application ztest :
 	libavl.a
 	libnvpair.a
 	libxdr.a
+	/boot/common/lib/libintl.a
+	/boot/common/lib/libiconv.a
 	libumem.a
 	libuutil.a
-	root
 	#crypto
 	#pthread
 	z
