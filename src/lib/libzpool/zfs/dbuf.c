@@ -1463,11 +1463,16 @@ dbuf_assign_arcbuf(dmu_buf_impl_t *db, arc_buf_t *buf, dmu_tx_t *tx)
 		(void) dbuf_dirty(db, tx);
 		bcopy(buf->b_data, db->db.db_data, db->db.db_size);
 		VERIFY(arc_buf_remove_ref(buf, db) == 1);
-		xuio_stat_wbuf_copied();
+		// zfs-haiku: we don't have xuio on Haiku. zfs-fuse makese
+		// do without this call. TODO: look this up in the Solaris
+		// sources and figure out what this does. Is it possible to
+		// implement xuio on Haiku? It it available on FreeBSD? What
+		// does FreeBSD do?
+		// xuio_stat_wbuf_copied();
 		return;
 	}
 
-	xuio_stat_wbuf_nocopy();
+	// xuio_stat_wbuf_nocopy();
 	if (db->db_state == DB_CACHED) {
 		dbuf_dirty_record_t *dr = db->db_last_dirty;
 
