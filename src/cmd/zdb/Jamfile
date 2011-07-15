@@ -5,12 +5,12 @@ SubDirHdrs [ FDirName $(TOP) src lib libzpool common ] ;
 SubDirHdrs [ FDirName $(TOP) src lib libzpool zfs ] ;
 SubDirHdrs [ FDirName $(TOP) src lib libzfscommon include ] ;
 
-Application zdb :
-	zdb.c
-	zdb_il.c :
-	libavl.a
-	libnvpair.a
-	libumem.a
-	libuutil.a
-	libzpool.a
-	;
+#Application zdb :
+#	zdb.c
+#	zdb_il.c :
+#	libavl.a
+#	libnvpair.a
+#	libumem.a
+#	libuutil.a
+#	libzpool.a
+#	;
