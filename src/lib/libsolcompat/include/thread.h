@@ -63,6 +63,7 @@ typedef pthread_rwlock_t rwlock_t;
 #define cond_wait(l,m)           pthread_cond_wait(l,m)
 #define cond_signal(l)           pthread_cond_signal(l)
 #define cond_broadcast(l)        pthread_cond_broadcast(l)
+#define cond_reltimedwait(c,m,r) pthread_cond_reltimedwait_np(c,m,r)
 
 // Haiku's pthread_t is an opaque type. We need to call get_pthread_thread_id
 // to get Haiku to give us an integral ID as opposed to a struct.
