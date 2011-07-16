@@ -11,7 +11,5 @@ StaticLibrary libxdr.a :
 	xdr_refer.c
 	xdr_sizeof.c
 	xdr_stdio.c
-	mt_misc.c
 	byteorder.c
-	key_call.c
 	;
