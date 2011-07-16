@@ -243,7 +243,7 @@ static struct xdr_ops *
 xdrmem_ops(void)
 {
 	static struct xdr_ops ops;
-	extern mutex_t	ops_lock;
+	mutex_t	ops_lock = PTHREAD_MUTEX_INITIALIZER;
 
 /* VARIABLES PROTECTED BY ops_lock: ops */
 	(void) mutex_lock(&ops_lock);
