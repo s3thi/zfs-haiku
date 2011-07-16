@@ -572,8 +572,10 @@ __dprintf(const char *file, const char *func, int line, const char *fmt, ...)
 			(void) printf("%d ", getpid());
 		if (dprintf_find_string("tid"))
 			(void) printf("%u ", thr_self());
-		if (dprintf_find_string("cpu"))
-			(void) printf("%u ", getcpuid());
+		// zfs-haiku: all you wanted to do was print it!?
+		// TODO: Implement getcpuid.
+		// if (dprintf_find_string("cpu"))
+		//	(void) printf("%u ", getcpuid());
 		if (dprintf_find_string("time"))
 			(void) printf("%llu ", gethrtime());
 		if (dprintf_find_string("long"))
