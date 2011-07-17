@@ -29,6 +29,7 @@
 #define _SOL_THREAD_H
 
 #include <pthread.h>
+#include <pthread_rwlock_tracking.h>
 #include <assert.h>
 
 /*
@@ -38,7 +39,7 @@
 typedef pthread_t thread_t;
 typedef pthread_mutex_t mutex_t;
 typedef pthread_cond_t cond_t;
-typedef pthread_rwlock_t rwlock_t;
+typedef pthread_rwlock_tracking_t rwlock_t;
 
 #define USYNC_THREAD 0
 
@@ -51,13 +52,16 @@ typedef pthread_rwlock_t rwlock_t;
 #define mutex_lock(l)            pthread_mutex_lock(l)
 #define mutex_trylock(l)         pthread_mutex_trylock(l)
 #define mutex_unlock(l)          pthread_mutex_unlock(l)
-#define rwlock_init(l,f,a)       pthread_rwlock_init(l,NULL)
-#define rwlock_destroy(l)        pthread_rwlock_destroy(l)
-#define rw_rdlock(l)             pthread_rwlock_rdlock(l)
-#define rw_wrlock(l)             pthread_rwlock_wrlock(l)
-#define rw_tryrdlock(l)          pthread_rwlock_tryrdlock(l)
-#define rw_trywrlock(l)          pthread_rwlock_trywrlock(l)
-#define rw_unlock(l)             pthread_rwlock_unlock(l)
+#define rwlock_init(l,f,a)       pthread_rwlock_tracking_init(l,NULL)
+#define rwlock_destroy(l)        pthread_rwlock_tracking_destroy(l)
+#define rw_rdlock(l)             pthread_rwlock_tracking_rdlock(l)
+#define rw_wrlock(l)             pthread_rwlock_tracking_wrlock(l)
+#define rw_tryrdlock(l)          pthread_rwlock_tracking_tryrdlock(l)
+#define rw_trywrlock(l)          pthread_rwlock_tracking_trywrlock(l)
+#define rw_unlock(l)             pthread_rwlock_tracking_unlock(l)
+#define rw_read_held(l)          pthread_rwlock_tracking_rdlock_held(l)
+#define rw_write_held(l)         pthread_rwlock_tracking_wrlock_held(l)
+#define rw_lock_held(l)          pthread_rwlock_tracking_rwrlock_held(l)
 #define cond_init(l,f,a)         pthread_cond_init(l,NULL)
 #define cond_destroy(l)          pthread_cond_destroy(l)
 #define cond_wait(l,m)           pthread_cond_wait(l,m)

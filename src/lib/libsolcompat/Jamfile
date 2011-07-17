@@ -8,5 +8,6 @@ StaticLibrary libsolcompat.a :
 	u8_textprep.c
 	thread.c
 	wait.c
+	pthread_rwlock_tracking.c
 	;
 

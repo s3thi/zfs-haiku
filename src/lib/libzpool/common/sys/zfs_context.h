@@ -270,14 +270,9 @@ typedef int krw_t;
 #define	RW_WRITER	1
 #define	RW_DEFAULT	USYNC_THREAD
 
-#undef RW_READ_HELD
-// zfs-haiku: don't need this.
-// #define RW_READ_HELD(x) _rw_read_held(&(x)->rw_lock)
-
-// zfs-haiku: does the current thread hold the rwlock?
-// rwlock itself is a pthreads rw_lock.
-#undef RW_WRITE_HELD
-#define	RW_WRITE_HELD(x)    ((x)->rw_owner == curthread)
+#define RW_READ_HELD(x) __rw_read_held(x)
+#define	RW_WRITE_HELD(x) __rw_write_held(x)
+#define RW_LOCK_HELD(x) __rw_lock_held(x)
 
 extern void rw_init(krwlock_t *rwlp, char *name, int type, void *arg);
 extern void rw_destroy(krwlock_t *rwlp);

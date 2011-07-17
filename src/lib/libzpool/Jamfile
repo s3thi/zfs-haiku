@@ -112,5 +112,6 @@ StaticLibrary libzpool.a :
 		zfs_namecheck.c
 		zfs_prop.c
 		zpool_prop.c
-		zprop_common.c ;
+		zprop_common.c
+		rw_lock_held.c ;
 
