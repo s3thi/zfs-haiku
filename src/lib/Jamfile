@@ -6,5 +6,6 @@ SubInclude TOP src lib libnvpair ;
 SubInclude TOP src lib libuutil ;
 SubInclude TOP src lib libumem ;
 SubInclude TOP src lib libzpool ;
+SubInclude TOP src lib libzfs ;
 SubInclude TOP src lib libxdr ;
 SubInclude TOP src lib libmd ;

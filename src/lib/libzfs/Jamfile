@@ -1,0 +1,37 @@
+SubDir TOP src lib libzfs ;
+
+ZFS_COMMON_DIR = [ FDirName $(TOP) src lib libzfscommon ] ;
+SEARCH_SOURCE += $(ZFS_COMMON_DIR) ;
+
+SubDirHdrs [ FDirName $(TOP) src lib libzfs include ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libzfscommon include ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libzpool common ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libzpool zfs ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libsolcompat include ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libuutil common ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libnvpair include ] ;
+
+StaticLibrary libzfs.a :
+		libzfs_changelist.c
+		libzfs_config.c
+		libzfs_dataset.c
+		libzfs_diff.c
+		libzfs_fru.c
+		libzfs_graph.c
+		libzfs_import.c
+		libzfs_mount.c
+		libzfs_pool.c
+		libzfs_sendrecv.c
+		libzfs_status.c
+		libzfs_util.c
+		
+		# ZFS common sources from libzfscommon
+		zfs_comutil.c
+		zfs_deleg.c
+		zfs_fletcher.c
+		zfs_namecheck.c
+		zfs_prop.c
+		zpool_prop.c
+		zprop_common.c
+		rw_lock_held.c
+		;
