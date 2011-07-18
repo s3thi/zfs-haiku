@@ -9,5 +9,5 @@ StaticLibrary libsolcompat.a :
 	thread.c
 	wait.c
 	pthread_rwlock_tracking.c
+	gethostid.cpp
 	;
-

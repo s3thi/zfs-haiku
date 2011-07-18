@@ -20,4 +20,7 @@ Application ztest :
 	#crypto
 	#pthread
 	z
+	bnetapi
+	network
+	be
 	;
