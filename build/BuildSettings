@@ -42,16 +42,19 @@ rule SetUpSubDirBuildSettings {
 				-Wno-switch
 				-Wfatal-errors
 				-std=gnu99 ;
-	# C++FLAGS += -Wall -Wextra -Wno-unused-parameter -fno-strict-aliasing ;
-	# if ($(NDEBUG)) {
-	#	OPTIM ?= -O2 -DNDEBUG=1 ;
-	# } else {
-	#	OPTIM ?= ;
-	#	CCFLAGS += -g ;
-	#	C++FLAGS += -g ;
-    #	CCFLAGS += ;
-    #	C++FLAGS += ;
-    # }
+	C++FLAGS += -Wall
+				-Wextra
+				-Wno-unused-parameter
+				-fno-strict-aliasing ;
+	if ($(NDEBUG)) {
+		OPTIM ?= -O2 -DNDEBUG=1 ;
+	} else {
+		OPTIM ?= ;
+		CCFLAGS += -ggdb ;
+		C++FLAGS += -ggdb ;
+    	CCFLAGS += ;
+   		C++FLAGS += ;
+    }
 
 	# setup objects location
 	local objdir = [ FDirName $(OBJECTS_DIR) $(dir[2-]) ] ;
