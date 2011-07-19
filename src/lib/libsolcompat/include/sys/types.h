@@ -56,6 +56,7 @@ typedef ulong_t         pgcnt_t;           /* number of pages */
 typedef longlong_t      diskaddr_t;
 typedef __haiku_int64   fsblkcnt64_t;
 typedef __haiku_int64   fsfilcnt64_t;
+typedef u_longlong_t    len_t;
 
 #ifdef _LONG_LONG_LTOH
 typedef union {
