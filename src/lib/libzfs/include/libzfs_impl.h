@@ -36,7 +36,7 @@
 #include <libzfs.h>
 #include <libshare.h>
 
-#include <fm/libtopo.h>
+//#include <fm/libtopo.h>
 
 #ifdef	__cplusplus
 extern "C" {
@@ -74,9 +74,11 @@ struct libzfs_handle {
 	boolean_t libzfs_mnttab_enable;
 	avl_tree_t libzfs_mnttab_cache;
 	int libzfs_pool_iter;
-	topo_hdl_t *libzfs_topo_hdl;
-	libzfs_fru_t **libzfs_fru_hash;
-	libzfs_fru_t *libzfs_fru_list;
+	/* zfs-haiku: removing these for now
+	 * topo_hdl_t *libzfs_topo_hdl;
+	 * libzfs_fru_t **libzfs_fru_hash;
+	 * libzfs_fru_t *libzfs_fru_list;
+	*/
 	char libzfs_chassis_id[256];
 };
 
