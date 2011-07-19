@@ -14,4 +14,10 @@ Application zdb :
 	libumem.a
 	libuutil.a
 	libzpool.a
+	libsolcompat.a
+	libxdr.a
+	libmd.a
+	bnetapi
+	be
+	network
 	;
