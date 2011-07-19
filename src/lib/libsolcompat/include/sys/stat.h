@@ -7,5 +7,10 @@
 // a separate stat64 struct. The FS is already 64 bits.
 #define stat64 stat
 
+// the Solaris stat.h says "XENIX definitions are not relevant to Solaris"
+// right before the section containing these defines. Why?
+#define S_IFDOOR 0xD000 /* door */
+#define S_IFPORT 0xE000 /* event port */
+
 #endif /* _SOL_SYS_STAT_H */
 
