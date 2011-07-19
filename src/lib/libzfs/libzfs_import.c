@@ -1146,7 +1146,7 @@ zpool_find_import_impl(libzfs_handle_t *hdl, importargs_t *iarg)
 	 * and toplevel GUID.
 	 */
 	for (i = 0; i < dirs; i++) {
-		tpool_t *t;
+		// tpool_t *t;
 		char *rdsk;
 		int dfd;
 
@@ -1207,15 +1207,18 @@ zpool_find_import_impl(libzfs_handle_t *hdl, importargs_t *iarg)
 		 * double the number of processors; we hold a lot of
 		 * locks in the kernel, so going beyond this doesn't
 		 * buy us much.
+		 * zfs-haiku: don't do this in parallel. We don't seem
+		 * to have the tpool API Solaris is using.
 		 */
-		t = tpool_create(1, 2 * sysconf(_SC_NPROCESSORS_ONLN),
-		    0, NULL);
+		// t = tpool_create(1, 2 * sysconf(_SC_NPROCESSORS_ONLN),
+		//    0, NULL);
 		for (slice = avl_first(&slice_cache); slice;
 		    (slice = avl_walk(&slice_cache, slice,
 		    AVL_AFTER)))
-			(void) tpool_dispatch(t, zpool_open_func, slice);
-		tpool_wait(t);
-		tpool_destroy(t);
+			// (void) tpool_dispatch(t, zpool_open_func, slice);
+			zpool_open_func(slice);
+		// tpool_wait(t);
+		// tpool_destroy(t);
 
 		cookie = NULL;
 		while ((slice = avl_destroy_nodes(&slice_cache,
