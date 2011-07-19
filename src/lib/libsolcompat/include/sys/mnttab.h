@@ -1,6 +1,8 @@
 #ifndef _SOL_SYS_MNTTAB_H
 #define _SOL_SYS_MNTTAB_H
 
+#define	MNT_LINE_MAX 1024
+
 struct mnttab {
 	char	*mnt_special;
 	char	*mnt_mountp;
