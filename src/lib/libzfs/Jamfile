@@ -12,6 +12,7 @@ SubDirHdrs [ FDirName $(TOP) src lib libzpool zfs ] ;
 SubDirHdrs [ FDirName $(TOP) src lib libsolcompat include ] ;
 SubDirHdrs [ FDirName $(TOP) src lib libuutil common ] ;
 SubDirHdrs [ FDirName $(TOP) src lib libnvpair include ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libmd include ] ;
 
 StaticLibrary libzfs.a :
 		libzfs_changelist.c
