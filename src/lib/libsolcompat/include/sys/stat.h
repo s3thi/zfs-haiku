@@ -5,7 +5,7 @@
 
 // zfs-haiku: theoretically, this should work since haiku never needed
 // a separate stat64 struct. The FS is already 64 bits.
-#define stat64 stat;
+#define stat64 stat
 
 #endif /* _SOL_SYS_STAT_H */
 
