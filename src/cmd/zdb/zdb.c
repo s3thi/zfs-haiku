@@ -72,6 +72,10 @@ extern int zfs_recover;
 int zfs_recover;
 #endif
 
+// zfs-haiku: make this a function that grabs the actual block size of
+// a device.
+#define DEV_BSIZE 512
+
 const char cmdname[] = "zdb";
 uint8_t dump_opt[256];
 
