@@ -3,6 +3,8 @@ SubDir TOP src lib libzfs ;
 ZFS_COMMON_DIR = [ FDirName $(TOP) src lib libzfscommon ] ;
 SEARCH_SOURCE += $(ZFS_COMMON_DIR) ;
 
+SubDirCcFlags -DTEXT_DOMAIN=\\\"None\\\" ;
+
 SubDirHdrs [ FDirName $(TOP) src lib libzfs include ] ;
 SubDirHdrs [ FDirName $(TOP) src lib libzfscommon include ] ;
 SubDirHdrs [ FDirName $(TOP) src lib libzpool common ] ;
@@ -16,7 +18,6 @@ StaticLibrary libzfs.a :
 		libzfs_config.c
 		libzfs_dataset.c
 		libzfs_diff.c
-		libzfs_fru.c
 		libzfs_graph.c
 		libzfs_import.c
 		libzfs_mount.c
