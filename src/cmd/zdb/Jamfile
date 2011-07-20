@@ -13,10 +13,10 @@ Application zdb :
 	libnvpair.a
 	libumem.a
 	libzpool.a
-	libsolcompat.a
 	libxdr.a
 	libmd.a
 	libzfs.a
+	libsolcompat.a
 	libuutil.a
 	# why do I have to supply an absolute path
 	# here?
