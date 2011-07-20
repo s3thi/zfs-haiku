@@ -2948,7 +2948,12 @@ main(int argc, char **argv)
 	int rewind = ZPOOL_NEVER_REWIND;
 
 	(void) setrlimit(RLIMIT_NOFILE, &rl);
-	(void) enable_extended_FILE_stdio(-1, -1);
+	/*
+	 * zfs-haiku: once again, this should be accomplished by setting
+	 * file handler limit to it's max value (2 ^13).
+	 *
+	 * (void) enable_extended_FILE_stdio(-1, -1);
+	 */
 
 	dprintf_setup(&argc, argv);
 
