@@ -6,6 +6,7 @@
 // zfs-haiku: theoretically, this should work since haiku never needed
 // a separate stat64 struct. The FS is already 64 bits.
 #define stat64 stat
+#define fstat64 fstat
 
 // the Solaris stat.h says "XENIX definitions are not relevant to Solaris"
 // right before the section containing these defines. Why?

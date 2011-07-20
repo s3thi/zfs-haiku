@@ -26,6 +26,7 @@
 #include_next <fcntl.h>
 
 #define open64   open
+#define openat64 openat
 #define pread64  pread
 #define pwrite64 pwrite
 
