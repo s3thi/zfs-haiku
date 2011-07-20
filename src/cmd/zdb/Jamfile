@@ -12,11 +12,16 @@ Application zdb :
 	libavl.a
 	libnvpair.a
 	libumem.a
-	libuutil.a
 	libzpool.a
 	libsolcompat.a
 	libxdr.a
 	libmd.a
+	libzfs.a
+	libuutil.a
+	# why do I have to supply an absolute path
+	# here?
+	/boot/common/lib/libintl.a
+	/boot/common/lib/libiconv.a
 	bnetapi
 	be
 	network

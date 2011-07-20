@@ -8,6 +8,7 @@ SEARCH_SOURCE += $(ZFS_COMMON_DIR) + $(ZPOOL_COMMON_DIR) + $(ZFS_DIR) ;
 
 SubDirHdrs [ FDirName $(TOP) src lib libzfscommon include ] ;
 SubDirHdrs [ FDirName $(TOP) src lib libnvpair include ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libmd include ] ;
 
 StaticLibrary libzpool.a : 
 		
