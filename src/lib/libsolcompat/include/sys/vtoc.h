@@ -94,6 +94,7 @@ extern "C" {
 #define	VT_EIO		(-3)		/* I/O error accessing vtoc */
 #define	VT_EINVAL	(-4)		/* illegal value in vtoc or request */
 #define	VT_ENOTSUP	(-5)		/* VTOC op. not supported */
+#define VT_ENOSPC   (-6)        /* No more space left */
 
 struct partition	{
 	ushort_t p_tag;			/* ID tag of partition */
