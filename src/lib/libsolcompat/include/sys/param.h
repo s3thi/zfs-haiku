@@ -16,5 +16,7 @@
  */
 #define DEV_BSIZE 512
 
+#define MAXOFFSET_T 0x7fffffffffffffffl
+
 #endif /* _SOLARIS_SYS_PARAM_H_ */
 
