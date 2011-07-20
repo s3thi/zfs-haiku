@@ -990,9 +990,15 @@ nozpool_all_slices(avl_tree_t *r, const char *sname)
 		check_one_slice(r, diskname, i, 0, 1);
 }
 
+/* 
+ * zfs-haiku: admittedly, I don't know what this function is doing.
+ * zfs-fuse does not have this, and freebsd has this wrapped in a
+ * #ifdef sun.
+*/
 static void
 check_slices(avl_tree_t *r, int fd, const char *sname)
 {
+#if 0
 	struct extvtoc vtoc;
 	struct dk_gpt *gpt;
 	char diskname[MAXNAMELEN];
@@ -1022,6 +1028,7 @@ check_slices(avl_tree_t *r, int fd, const char *sname)
 			check_one_slice(r, diskname, i, 0, 1);
 		efi_free(gpt);
 	}
+#endif
 }
 
 static void
