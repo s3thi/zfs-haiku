@@ -944,8 +944,11 @@ zfs_valid_proplist(libzfs_handle_t *hdl, zfs_type_t type, nvlist_t *nvl,
 			/*
 			 * Verify the mlslabel string and convert to
 			 * internal hex label string.
+			 * zfs-haiku: see comment in function zfs_prop_get() in this source
+			 * file.
 			 */
 
+#if 0
 			m_label_t *new_sl;
 			char *hex = NULL;	/* internal label string */
 
@@ -983,12 +986,12 @@ zfs_valid_proplist(libzfs_handle_t *hdl, zfs_type_t type, nvlist_t *nvl,
 			free(hex);
 
 			break;
-
+#endif
 badlabel:
 			zfs_error_aux(hdl, dgettext(TEXT_DOMAIN,
 			    "invalid mlslabel '%s'"), strval);
 			(void) zfs_error(hdl, EZFS_BADPROP, errbuf);
-			m_label_free(new_sl);	/* OK if null */
+			// m_label_free(new_sl);	/* OK if null */
 			goto error;
 
 		}
@@ -2070,6 +2073,14 @@ zfs_prop_get(zfs_handle_t *zhp, zfs_prop_t prop, char *propbuf, size_t proplen,
 
 	case ZFS_PROP_MLSLABEL:
 		{
+			/*
+			 * zfs-haiku: more info about labeled data sets available at
+			 * http://download.oracle.com/docs/cd/E19082-01/819-7309/managezones-18/index.html
+			 * We don't support this. To support this, we'd need to port the
+			 * entire mlslabel API from Solaris.
+			 */
+			
+#if 0
 			m_label_t *new_sl = NULL;
 			char *ascii = NULL;	/* human readable label */
 
@@ -2103,6 +2114,7 @@ zfs_prop_get(zfs_handle_t *zhp, zfs_prop_t prop, char *propbuf, size_t proplen,
 
 			(void) strlcpy(propbuf, ascii, proplen);
 			free(ascii);
+#endif
 		}
 		break;
 
@@ -2197,6 +2209,10 @@ zfs_prop_get_numeric(zfs_handle_t *zhp, zfs_prop_t prop, uint64_t *value,
 	return (0);
 }
 
+/*
+ * zfs-haiku: once again, do not need any sharing-related stuff.
+ */
+#if 0
 static int
 idmap_id_to_numeric_domain_rid(uid_t id, boolean_t isuser,
     char **domainp, idmap_rid_t *ridp)
@@ -2226,6 +2242,7 @@ out:
 		idmap_get_destroy(get_hdl);
 	return (err);
 }
+#endif
 
 /*
  * convert the propname into parameters needed by kernel
@@ -2262,7 +2279,9 @@ userquota_propname_decode(const char *propname, boolean_t zoned,
 		/*
 		 * It's a SID name (eg "user@domain") that needs to be
 		 * turned into S-1-domainID-RID.
+		 * zfs-haiku: more stubbed-out code incoming.
 		 */
+#if 0
 		directory_error_t e;
 		if (zoned && getzoneid() == GLOBAL_ZONEID)
 			return (ENOENT);
@@ -2281,6 +2300,9 @@ userquota_propname_decode(const char *propname, boolean_t zoned,
 			return (ENOENT);
 		cp = numericsid;
 		/* will be further decoded below */
+#endif
+
+		return (ENOENT);
 	}
 
 	if (strncmp(cp, "S-1-", 4) == 0) {
@@ -2321,18 +2343,20 @@ userquota_propname_decode(const char *propname, boolean_t zoned,
 	} else {
 		/* It's a user/group ID (eg "12345"). */
 		uid_t id = strtoul(cp, &end, 10);
-		idmap_rid_t rid;
+		// idmap_rid_t rid;
 		char *mapdomain;
 
 		if (*end != '\0')
 			return (EINVAL);
 		if (id > MAXUID) {
+#if 0
 			/* It's an ephemeral ID. */
 			if (idmap_id_to_numeric_domain_rid(id, isuser,
 			    &mapdomain, &rid) != 0)
 				return (ENOENT);
 			(void) strlcpy(domain, mapdomain, domainlen);
 			*ridp = rid;
+#endif
 		} else {
 			*ridp = id;
 		}
