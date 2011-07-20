@@ -424,9 +424,14 @@ zfs_unmountall(zfs_handle_t *zhp, int flags)
 	return (ret);
 }
 
+/*
+ * zfs-haiku: stubbing out all sharing-related functions for now.
+ */
+
 boolean_t
 zfs_is_shared(zfs_handle_t *zhp)
 {
+#if 0
 	zfs_share_type_t rc = 0;
 	zfs_share_proto_t *curr_proto;
 
@@ -438,20 +443,31 @@ zfs_is_shared(zfs_handle_t *zhp)
 		rc |= zfs_is_shared_proto(zhp, NULL, *curr_proto);
 
 	return (rc ? B_TRUE : B_FALSE);
+#endif
+
+	return B_FALSE;
 }
 
 int
 zfs_share(zfs_handle_t *zhp)
 {
+#if 0
 	assert(!ZFS_IS_VOLUME(zhp));
 	return (zfs_share_proto(zhp, share_all_proto));
+#endif
+
+	return -1;
 }
 
 int
 zfs_unshare(zfs_handle_t *zhp)
 {
+#if 0
 	assert(!ZFS_IS_VOLUME(zhp));
 	return (zfs_unshareall(zhp));
+#endif
+
+	return -1;
 }
 
 /*
@@ -460,6 +476,7 @@ zfs_unshare(zfs_handle_t *zhp)
 zfs_share_type_t
 zfs_is_shared_proto(zfs_handle_t *zhp, char **where, zfs_share_proto_t proto)
 {
+#if 0
 	char *mountpoint;
 	zfs_share_type_t rc;
 
@@ -476,20 +493,31 @@ zfs_is_shared_proto(zfs_handle_t *zhp, char **where, zfs_share_proto_t proto)
 		free(mountpoint);
 		return (SHARED_NOT_SHARED);
 	}
+#endif
+
+	return (SHARED_NOT_SHARED);
 }
 
 boolean_t
 zfs_is_shared_nfs(zfs_handle_t *zhp, char **where)
 {
+#if 0
 	return (zfs_is_shared_proto(zhp, where,
 	    PROTO_NFS) != SHARED_NOT_SHARED);
+#endif
+
+	return (SHARED_NOT_SHARED);
 }
 
 boolean_t
 zfs_is_shared_smb(zfs_handle_t *zhp, char **where)
 {
+#if 0
 	return (zfs_is_shared_proto(zhp, where,
 	    PROTO_SMB) != SHARED_NOT_SHARED);
+#endif
+
+	return (SHARED_NOT_SHARED);
 }
 
 /*
@@ -498,6 +526,7 @@ zfs_is_shared_smb(zfs_handle_t *zhp, char **where)
  * initialized in _zfs_init_libshare() are actually present.
  */
 
+#if 0
 static sa_handle_t (*_sa_init)(int);
 static void (*_sa_fini)(sa_handle_t);
 static sa_share_t (*_sa_find_share)(sa_handle_t, char *);
@@ -510,6 +539,7 @@ static libzfs_handle_t *(*_sa_get_zfs_handle)(sa_handle_t);
 static int (*_sa_zfs_process_share)(sa_handle_t, sa_group_t, sa_share_t,
     char *, char *, zprop_source_t, char *, char *, char *);
 static void (*_sa_update_sharetab_ts)(sa_handle_t);
+#endif
 
 /*
  * _zfs_init_libshare()
@@ -519,10 +549,11 @@ static void (*_sa_update_sharetab_ts)(sa_handle_t);
  * Make sure the correct ISA version is loaded.
  */
 
-#pragma init(_zfs_init_libshare)
+//#pragma init(_zfs_init_libshare)
 static void
 _zfs_init_libshare(void)
 {
+#if 0
 	void *libshare;
 	char path[MAXPATHLEN];
 	char isa[MAXISALEN];
@@ -577,6 +608,7 @@ _zfs_init_libshare(void)
 			_sa_update_sharetab_ts = NULL;
 		}
 	}
+#endif
 }
 
 /*
@@ -590,6 +622,7 @@ _zfs_init_libshare(void)
 int
 zfs_init_libshare(libzfs_handle_t *zhandle, int service)
 {
+#if 0
 	int ret = SA_OK;
 
 	if (_sa_init == NULL)
@@ -619,6 +652,9 @@ zfs_init_libshare(libzfs_handle_t *zhandle, int service)
 		ret = SA_NO_MEMORY;
 
 	return (ret);
+#endif
+
+	return SA_CONFIG_ERR;
 }
 
 /*
@@ -630,11 +666,13 @@ zfs_init_libshare(libzfs_handle_t *zhandle, int service)
 void
 zfs_uninit_libshare(libzfs_handle_t *zhandle)
 {
+#if 0
 	if (zhandle != NULL && zhandle->libzfs_sharehdl != NULL) {
 		if (_sa_fini != NULL)
 			_sa_fini(zhandle->libzfs_sharehdl);
 		zhandle->libzfs_sharehdl = NULL;
 	}
+#endif
 }
 
 /*
@@ -646,10 +684,14 @@ zfs_uninit_libshare(libzfs_handle_t *zhandle)
 int
 zfs_parse_options(char *options, zfs_share_proto_t proto)
 {
+#if 0
 	if (_sa_parse_legacy_options != NULL) {
 		return (_sa_parse_legacy_options(NULL, options,
 		    proto_table[proto].p_name));
 	}
+	return (SA_CONFIG_ERR);
+#endif
+	
 	return (SA_CONFIG_ERR);
 }
 
@@ -662,8 +704,12 @@ zfs_parse_options(char *options, zfs_share_proto_t proto)
 static sa_share_t
 zfs_sa_find_share(sa_handle_t handle, char *path)
 {
+#if 0
 	if (_sa_find_share != NULL)
 		return (_sa_find_share(handle, path));
+	return (NULL);
+#endif
+
 	return (NULL);
 }
 
@@ -676,8 +722,12 @@ zfs_sa_find_share(sa_handle_t handle, char *path)
 static int
 zfs_sa_enable_share(sa_share_t share, char *proto)
 {
+#if 0
 	if (_sa_enable_share != NULL)
 		return (_sa_enable_share(share, proto));
+	return (SA_CONFIG_ERR);
+#endif
+	
 	return (SA_CONFIG_ERR);
 }
 
@@ -690,8 +740,12 @@ zfs_sa_enable_share(sa_share_t share, char *proto)
 static int
 zfs_sa_disable_share(sa_share_t share, char *proto)
 {
+#if 0
 	if (_sa_disable_share != NULL)
 		return (_sa_disable_share(share, proto));
+	return (SA_CONFIG_ERR);
+#endif
+	
 	return (SA_CONFIG_ERR);
 }
 
@@ -703,6 +757,7 @@ zfs_sa_disable_share(sa_share_t share, char *proto)
 static int
 zfs_share_proto(zfs_handle_t *zhp, zfs_share_proto_t *proto)
 {
+#if 0
 	char mountpoint[ZFS_MAXPROPLEN];
 	char shareopts[ZFS_MAXPROPLEN];
 	char sourcestr[ZFS_MAXPROPLEN];
@@ -787,26 +842,42 @@ zfs_share_proto(zfs_handle_t *zhp, zfs_share_proto_t *proto)
 		}
 
 	}
+	
 	return (0);
+#endif
+	
+	return (-1);
 }
 
 
 int
 zfs_share_nfs(zfs_handle_t *zhp)
 {
+#if 0
 	return (zfs_share_proto(zhp, nfs_only));
+#endif
+
+	return -1;
 }
 
 int
 zfs_share_smb(zfs_handle_t *zhp)
 {
+#if 0
 	return (zfs_share_proto(zhp, smb_only));
+#endif
+	
+	return -1;
 }
 
 int
 zfs_shareall(zfs_handle_t *zhp)
 {
+#if 0
 	return (zfs_share_proto(zhp, share_all_proto));
+#endif
+
+	return -1;
 }
 
 /*
@@ -816,6 +887,7 @@ static int
 unshare_one(libzfs_handle_t *hdl, const char *name, const char *mountpoint,
     zfs_share_proto_t proto)
 {
+#if 0
 	sa_share_t share;
 	int err;
 	char *mntpt;
@@ -850,6 +922,9 @@ unshare_one(libzfs_handle_t *hdl, const char *name, const char *mountpoint,
 		    name));
 	}
 	return (0);
+#endif
+
+	return -1;
 }
 
 /*
@@ -859,6 +934,7 @@ int
 zfs_unshare_proto(zfs_handle_t *zhp, const char *mountpoint,
     zfs_share_proto_t *proto)
 {
+#if 0
 	libzfs_handle_t *hdl = zhp->zfs_hdl;
 	struct mnttab entry;
 	char *mntpt = NULL;
@@ -891,18 +967,29 @@ zfs_unshare_proto(zfs_handle_t *zhp, const char *mountpoint,
 		free(mntpt);
 
 	return (0);
+#endif
+
+	return -1;
 }
 
 int
 zfs_unshare_nfs(zfs_handle_t *zhp, const char *mountpoint)
 {
+#if 0
 	return (zfs_unshare_proto(zhp, mountpoint, nfs_only));
+#endif
+
+	return -1;
 }
 
 int
 zfs_unshare_smb(zfs_handle_t *zhp, const char *mountpoint)
 {
+#if 0
 	return (zfs_unshare_proto(zhp, mountpoint, smb_only));
+#endif
+
+	return -1;
 }
 
 /*
@@ -911,6 +998,7 @@ zfs_unshare_smb(zfs_handle_t *zhp, const char *mountpoint)
 int
 zfs_unshareall_proto(zfs_handle_t *zhp, zfs_share_proto_t *proto)
 {
+#if 0
 	prop_changelist_t *clp;
 	int ret;
 
@@ -922,30 +1010,49 @@ zfs_unshareall_proto(zfs_handle_t *zhp, zfs_share_proto_t *proto)
 	changelist_free(clp);
 
 	return (ret);
+#endif
+
+	return -1;
 }
 
 int
 zfs_unshareall_nfs(zfs_handle_t *zhp)
 {
+#if 0
 	return (zfs_unshareall_proto(zhp, nfs_only));
+#endif
+
+	return -1;
 }
 
 int
 zfs_unshareall_smb(zfs_handle_t *zhp)
 {
+#if 0
 	return (zfs_unshareall_proto(zhp, smb_only));
+#endif
+
+	return -1;
 }
 
 int
 zfs_unshareall(zfs_handle_t *zhp)
 {
+#if 0
 	return (zfs_unshareall_proto(zhp, share_all_proto));
+#endif
+
+	return -1;
 }
 
 int
 zfs_unshareall_bypath(zfs_handle_t *zhp, const char *mountpoint)
 {
+#if 0
 	return (zfs_unshare_proto(zhp, mountpoint, share_all_proto));
+#endif
+
+	return -1;
 }
 
 /*
