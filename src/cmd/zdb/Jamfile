@@ -25,4 +25,5 @@ Application zdb :
 	bnetapi
 	be
 	network
+	z
 	;
