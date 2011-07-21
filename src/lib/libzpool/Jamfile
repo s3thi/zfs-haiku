@@ -87,7 +87,7 @@ StaticLibrary libzpool.a :
 #		zfs_onexit.c
 #		zfs_replay.c
 #		zfs_rlock.c
-#		zfs_sa.c
+		zfs_sa.c
 #		zfs_vfsops.c
 #		zfs_vnops.c
 		zfs_znode.c
