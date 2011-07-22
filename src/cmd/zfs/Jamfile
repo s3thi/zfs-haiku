@@ -1,6 +1,30 @@
 SubDir TOP src cmd zfs ;
 
+SubDirCcFlags -DTEXT_DOMAIN=\\\"None\\\" ;
+
+SubDirHdrs [ FDirName $(TOP) src lib libzfs include ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libnvpair include ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libuutil common ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libzpool common ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libzfscommon include ] ;
+
 Application zfs :
 	zfs_iter.c
 	zfs_main.c :
+	libzfs.a
+	libuutil.a
+	libnvpair.a
+	libxdr.a
+	libmd.a
+	libumem.a
+	libzpool.a
+	libsolcompat.a
+	# why do I have to supply an absolute path
+	# here?
+	/boot/common/lib/libintl.a
+	/boot/common/lib/libiconv.a
+	be
+	network
+	bnetapi
+	z
 	;
