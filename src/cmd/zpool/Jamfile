@@ -1,6 +1,14 @@
 SubDir TOP src cmd zpool ;
 
-Application zdb :
+SubDirCcFlags -DTEXT_DOMAIN=\\\"None\\\" ;
+
+SubDirHdrs [ FDirName $(TOP) src lib libzfs include ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libnvpair include ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libuutil common ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libzpool common ] ;
+SubDirHdrs [ FDirName $(TOP) src lib libzfscommon include ] ;
+
+Application zpool :
 	zpool_iter.c
 	zpool_main.c
 	zpool_util.c
