@@ -1,0 +1,8 @@
+SubDir TOP src cmd zpool ;
+
+Application zdb :
+	zpool_iter.c
+	zpool_main.c
+	zpool_util.c
+	zpool_vdev.c
+	;
