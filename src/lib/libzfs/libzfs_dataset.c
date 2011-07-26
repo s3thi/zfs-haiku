@@ -635,10 +635,12 @@ libzfs_mnttab_cache(libzfs_handle_t *hdl, boolean_t enable)
 	hdl->libzfs_mnttab_enable = enable;
 }
 
+// zfs-haiku: stubbing this out to get code to build.
 int
 libzfs_mnttab_find(libzfs_handle_t *hdl, const char *fsname,
     struct mnttab *entry)
 {
+#if 0
 	mnttab_node_t find;
 	mnttab_node_t *mtn;
 
@@ -665,6 +667,8 @@ libzfs_mnttab_find(libzfs_handle_t *hdl, const char *fsname,
 		*entry = mtn->mtn_mt;
 		return (0);
 	}
+	return (ENOENT);
+#endif
 	return (ENOENT);
 }
 
@@ -1712,6 +1716,8 @@ get_numeric_property(zfs_handle_t *zhp, zfs_prop_t prop, zprop_source_t *src,
 	case ZFS_PROP_SETUID:
 	case ZFS_PROP_XATTR:
 	case ZFS_PROP_NBMAND:
+	// zfs-haiku: stubbing this out to get code to build.
+#if 0
 		*val = getprop_uint64(zhp, prop, source);
 
 		if (received)
@@ -1726,6 +1732,8 @@ get_numeric_property(zfs_handle_t *zhp, zfs_prop_t prop, zprop_source_t *src,
 			if (src)
 				*src = ZPROP_SRC_TEMPORARY;
 		}
+		break;
+#endif		
 		break;
 
 	case ZFS_PROP_CANMOUNT:

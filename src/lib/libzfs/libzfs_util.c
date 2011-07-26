@@ -673,10 +673,12 @@ zfs_get_pool_handle(const zfs_handle_t *zhp)
  * (starts with '/' or "./").  If so, walk the mnttab trying
  * to match the device number.  If not, treat the path as an
  * fs/vol/snap name.
+ * zfs-haiku: commenting this out to get code to build.
  */
 zfs_handle_t *
 zfs_path_to_zhandle(libzfs_handle_t *hdl, char *path, zfs_type_t argtype)
 {
+#if 0
 	struct stat64 statbuf;
 	struct extmnttab entry;
 	int ret;
@@ -711,6 +713,9 @@ zfs_path_to_zhandle(libzfs_handle_t *hdl, char *path, zfs_type_t argtype)
 	}
 
 	return (zfs_open(hdl, entry.mnt_special, ZFS_TYPE_FILESYSTEM));
+#endif
+
+	return NULL;
 }
 
 /*
