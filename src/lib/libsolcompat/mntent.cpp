@@ -69,10 +69,8 @@ getmntent(FILE *fp, struct mnttab *mp)
 	strlcpy(mp->mnt_mntopts, MNTENT_MP_DEFAULT_OPTS, buflen + 2 + 1);
 	strcat(mp->mnt_mntopts, volume.IsReadOnly() ? ",ro":",rw");
 	
-	// mount time. no idea how i can get this. set it to 0 for now.
-	buflen = 1;
-	mp->mnt_time = MNTENT_ALLOC_MP;
-	strlcpy(mp->mnt_time, "0", buflen + 1);
+	// mount time. no idea how i can get this. set it to NULL for now.
+	mp->mnt_time = NULL;
 	
 	return 0;
 }
