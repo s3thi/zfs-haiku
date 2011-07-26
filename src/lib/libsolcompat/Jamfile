@@ -11,4 +11,5 @@ StaticLibrary libsolcompat.a :
 	pthread_rwlock_tracking.c
 	gethostid.cpp
 	zone.c
+	mkdir.cpp
 	;
