@@ -12,4 +12,5 @@ StaticLibrary libsolcompat.a :
 	gethostid.cpp
 	zone.c
 	mkdir.cpp
+	mntent.cpp
 	;
