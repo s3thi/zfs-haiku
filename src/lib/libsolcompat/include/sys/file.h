@@ -3,9 +3,10 @@
 
 #include_next <sys/file.h>
 
-#define FREAD   O_RDONLY
-#define FWRITE  O_WRONLY
-#define FAPPEND  O_APPEND
+// zfs-haiku: magic numbers are bad!
+#define FREAD   1
+#define FWRITE  2
+#define FAPPEND 8
 
 #define FCREAT  O_CREAT
 #define FTRUNC  O_TRUNC
