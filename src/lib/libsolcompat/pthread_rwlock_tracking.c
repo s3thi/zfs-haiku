@@ -79,6 +79,11 @@ int pthread_rwlock_tracking_trywrlock(pthread_rwlock_tracking_t *lock)
 int
 pthread_rwlock_tracking_unlock(pthread_rwlock_tracking_t *lock)
 {
+	/* unlock write locks first */
+	if (pthread_rwlock_tracking_wrlock_held(lock))
+		return pthread_rwlock_unlock(&(lock->rwlock));
+
+	/* now start looking for read locks */
 	thread_id curThreadID = find_thread(NULL);
 	thread_id_list_node_t *node, *next_node;
 	
