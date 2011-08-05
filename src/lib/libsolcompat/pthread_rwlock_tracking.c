@@ -135,6 +135,6 @@ pthread_rwlock_tracking_wrlock_held(pthread_rwlock_tracking_t* lock)
 int
 pthread_rwlock_tracking_rwlock_held(pthread_rwlock_tracking_t* lock)
 {
-	return pthread_rwlock_tracking_rdlock_held(lock) &&
+	return pthread_rwlock_tracking_rdlock_held(lock) ||
 		pthread_rwlock_tracking_wrlock_held(lock);
 }
