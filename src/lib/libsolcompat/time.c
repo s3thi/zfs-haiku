@@ -5,5 +5,5 @@
 hrtime_t
 gethrtime()
 {
-	return (hrtime_t)real_time_clock_usecs();
+	return (hrtime_t)system_time();
 }
