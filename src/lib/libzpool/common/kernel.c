@@ -276,6 +276,7 @@ cv_timedwait(kcondvar_t *cv, kmutex_t *mp, clock_t abstime)
 {
 	int error;
 	timestruc_t ts;
+	struct timeval tv;
 	clock_t delta;
 
 top:
@@ -283,19 +284,28 @@ top:
 	if (delta <= 0)
 		return (-1);
 
-	ts.tv_sec = delta / hz;
-	ts.tv_nsec = (delta % hz) * (NANOSEC / hz);
+	if (gettimeofday(&tv, NULL) != 0)
+		assert(!"gettimeofday() failed");
 
+	ts.tv_sec = tv.tv_sec + delta / hz;
+	ts.tv_nsec = tv.tv_usec * 1000 + (delta % hz) * (NANOSEC / hz);
+	ASSERT(ts.tv_nsec >= 0);
+	
+	if (ts.tv_nsec >= NANOSEC) {
+		ts.tv_sec++;
+		ts.tv_nsec -= NANOSEC;
+	}
+	
 	ASSERT(mutex_owner(mp) == curthread);
 	mp->m_owner = NULL;
-	error = cond_reltimedwait(cv, &mp->m_lock, &ts);
+	error = pthread_cond_timedwait(cv, &mp->m_lock, &ts);
 	mp->m_owner = curthread;
-
-	if (error == ETIME)
-		return (-1);
 
 	if (error == EINTR)
 		goto top;
+
+	if (error == ETIMEDOUT)
+		return (-1);
 
 	ASSERT(error == 0);
 
