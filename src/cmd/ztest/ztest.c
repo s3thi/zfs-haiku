@@ -4736,19 +4736,23 @@ static void
 ztest_run_zdb(char *pool)
 {
 	int status;
-	char zdb[MAXPATHLEN + MAXNAMELEN + 20];
+	char zdb[MAXPATHLEN + MAXNAMELEN];
 	char zbuf[1024];
-	char *bin;
-	char *ztest;
+	char bin[MAXPATHLEN];
+	char ztest[MAXPATHLEN + MAXNAMELEN];
 	char *isa;
 	int isalen;
 	FILE *fp;
 
-	(void) realpath(getexecname(), zdb);
-
-	/* zdb lives in /usr/sbin, while ztest lives in /usr/bin */
-	bin = strstr(zdb, "/usr/bin/");
-	ztest = strstr(bin, "/ztest");
+	(void) realpath(getexecname(), ztest);
+	
+	/* zfs-haiku: ztest and zdb both reside in the same location on Haiku */
+	snprintf(bin, strlen(ztest) - strlen("ztest") + 1, ztest);
+	sprintf(zdb, bin);
+	strcat(zdb, "zdb");
+	printf("bin is %s\n", bin);
+	printf("ztest is %s\n", ztest);
+	printf("zdb is %s\n", zdb);
 	isa = bin + 8;
 	isalen = ztest - isa;
 	isa = strdup(isa);
