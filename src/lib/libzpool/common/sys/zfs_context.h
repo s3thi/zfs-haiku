@@ -235,7 +235,7 @@ typedef struct kmutex {
 #define	MUTEX_DEFAULT	USYNC_THREAD
 #undef	MUTEX_HELD
 #undef	MUTEX_NOT_HELD
-#define	MUTEX_HELD(m) _mutex_held(&(m)->m_lock)
+#define	MUTEX_HELD(m) ((m)->m_owner == curthread)
 #define	MUTEX_NOT_HELD(m) (!MUTEX_HELD(m))
 
 /*
@@ -254,6 +254,7 @@ extern void mutex_enter(kmutex_t *mp);
 extern void mutex_exit(kmutex_t *mp);
 extern int mutex_tryenter(kmutex_t *mp);
 extern void *mutex_owner(kmutex_t *mp);
+extern int _mutex_held(pthread_mutex_t *a);
 
 /*
  * RW locks
