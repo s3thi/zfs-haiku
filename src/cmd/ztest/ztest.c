@@ -4740,8 +4740,6 @@ ztest_run_zdb(char *pool)
 	char zbuf[1024];
 	char bin[MAXPATHLEN];
 	char ztest[MAXPATHLEN + MAXNAMELEN];
-	char *isa;
-	int isalen;
 	FILE *fp;
 
 	(void) realpath(getexecname(), ztest);
@@ -4750,25 +4748,17 @@ ztest_run_zdb(char *pool)
 	snprintf(bin, strlen(ztest) - strlen("ztest") + 1, ztest);
 	sprintf(zdb, bin);
 	strcat(zdb, "zdb");
-	printf("bin is %s\n", bin);
-	printf("ztest is %s\n", ztest);
-	printf("zdb is %s\n", zdb);
-	isa = bin + 8;
-	isalen = ztest - isa;
-	isa = strdup(isa);
 	/* LINTED */
-	(void) sprintf(bin,
-	    "/usr/sbin%.*s/zdb -bcc%s%s -U %s %s",
-	    isalen,
-	    isa,
+	(void) sprintf(zdb,
+	    "%s -bcc%s%s -U %s %s",
+	    zdb,
 	    zopt_verbose >= 3 ? "s" : "",
 	    zopt_verbose >= 4 ? "v" : "",
 	    spa_config_path,
 	    pool);
-	free(isa);
 
 	if (zopt_verbose >= 5)
-		(void) printf("Executing %s\n", strstr(zdb, "zdb "));
+		(void) printf("Executing %s\n", strstr(zdb, "zdb"));
 
 	fp = popen(zdb, "r");
 
@@ -4783,9 +4773,9 @@ ztest_run_zdb(char *pool)
 
 	ztest_dump_core = 0;
 	if (WIFEXITED(status))
-		fatal(0, "'%s' exit code %d", zdb, WEXITSTATUS(status));
+		fatal(0, "'%s' exit code %d", strstr(zdb, "zdb"), WEXITSTATUS(status));
 	else
-		fatal(0, "'%s' died with signal %d", zdb, WTERMSIG(status));
+		fatal(0, "'%s' died with signal %d", strstr(zdb, "zdb"), WTERMSIG(status));
 }
 
 static void
