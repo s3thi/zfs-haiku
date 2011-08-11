@@ -2,7 +2,7 @@ SubDir TOP src lib libsolcompat ;
 
 StaticLibrary libsolcompat.a : 
 	list.c
-	time.c
+	time.cpp
 	atomic.c
 	getexecname.c
 	u8_textprep.c
