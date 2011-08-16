@@ -1,23 +1,24 @@
+typedef unsigned int uint_t;
+
 #include <storage/VolumeRoster.h>
 #include <storage/Directory.h>
 #include <storage/StorageDefs.h>
 #include <storage/Path.h>
-#include <stdio.h>
+#include <cstdio>
 #include <sys/mnttab.h>
 #include <sys/types.h>
 #include <string.h>
-#include <stdlib.h>
+#include <cstdlib>
 
 #define MNTENT_MP_DEFAULT_OPTS "devices,exec,nonbmand,setuid,suid"
 #define MNTENT_MP_UNKNOWN "unknown"
-#define MNTENT_ALLOC_MP (char*)malloc(sizeof(char) * (buflen + 1))
 
 extern "C" {
 
 int
-getmntent(FILE *fp, struct mnttab *mp)
+getmntent_haiku(int* cookie, struct mnttab* mp)
 {
-	static BVolumeRoster roster;
+	BVolumeRoster roster;
 	
 	char buf[B_PATH_NAME_LENGTH];
 	int buflen = 0;
@@ -26,8 +27,10 @@ getmntent(FILE *fp, struct mnttab *mp)
 	BEntry rootDirEntry;
 	BPath rootDirPath;
 	
-	if (roster.GetNextVolume(&volume) != B_NO_ERROR)
-		return -1;
+	roster.Rewind();
+	for (int i = 0; i <= *cookie; i++)
+		if (roster.GetNextVolume(&volume) != B_NO_ERROR)
+			return -1;
 	
 	// volume name
 	volume.GetName(buf);
@@ -38,7 +41,7 @@ getmntent(FILE *fp, struct mnttab *mp)
 		strlcpy(buf, MNTENT_MP_UNKNOWN, buflen + 1);
 	}
 	
-	mp->mnt_special = MNTENT_ALLOC_MP;
+	mp->mnt_special = (char* )malloc(sizeof(char) * (buflen+1));
 	strlcpy(mp->mnt_special, buf, buflen+1);
 	
 	// mount point
@@ -50,7 +53,7 @@ getmntent(FILE *fp, struct mnttab *mp)
 		return -1;
 	
 	buflen = strlen(rootDirPath.Path());
-	mp->mnt_mountp = MNTENT_ALLOC_MP;
+	mp->mnt_mountp = (char* )malloc(sizeof(char) * (buflen+1));
 	strlcpy(mp->mnt_mountp, rootDirPath.Path(), buflen + 1);
 	
 	// partition type.
@@ -59,20 +62,22 @@ getmntent(FILE *fp, struct mnttab *mp)
 		return -1;
 	
 	buflen = strlen(info.fsh_name);
-	mp->mnt_fstype = MNTENT_ALLOC_MP;
+	mp->mnt_fstype = (char* )malloc(sizeof(char) * (buflen+1));
 	strlcpy(mp->mnt_fstype, info.fsh_name, buflen+1);
 	
 	// fs options. set default options for all file systems for now.
 	buflen = strlen(MNTENT_MP_DEFAULT_OPTS);
-	// malloc extra space for ro/rw
-	mp->mnt_mntopts = (char*)malloc(sizeof(char) * buflen+2+1);
+	mp->mnt_mntopts = (char* )malloc(sizeof(char) * (buflen+2+1)); // extra space for ro/rw
 	strlcpy(mp->mnt_mntopts, MNTENT_MP_DEFAULT_OPTS, buflen + 2 + 1);
 	strcat(mp->mnt_mntopts, volume.IsReadOnly() ? ",ro":",rw");
 	
-	// mount time. no idea how i can get this. set it to NULL for now.
-	mp->mnt_time = NULL;
+	// mount time. no idea how i can get this. set it to 0 for now.
+	buflen = 1;
+	mp->mnt_time = (char* )malloc(sizeof(char) * (buflen+1));
+	strlcpy(mp->mnt_time, "0", buflen + 1);
+	
+	(*cookie)++;
 	
 	return 0;
 }
-
-} /* "C" */
+}
