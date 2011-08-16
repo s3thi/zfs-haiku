@@ -59,7 +59,9 @@
 
 libzfs_handle_t *g_zfs;
 
-static FILE *mnttab_file;
+/* zfs-haiku */
+/* static FILE *mnttab_file; */
+static int mnttab_cookie;
 static char history_str[HIS_MAX_RECORD_LEN];
 const char *pypath = "/usr/lib/zfs/pyzfs.py";
 
@@ -3356,8 +3358,10 @@ share_mount(int op, int argc, char **argv)
 		 * display any active ZFS mounts.  We hide any snapshots, since
 		 * they are controlled automatically.
 		 */
-		rewind(mnttab_file);
-		while (getmntent(mnttab_file, &entry) == 0) {
+		/* zfs-haiku */
+		/* rewind(mnttab_file); */
+		mnttab_cookie = 0;
+		while (getmntent_haiku(&mnttab_cookie, &entry) == 0) {
 			if (strcmp(entry.mnt_fstype, MNTTYPE_ZFS) != 0 ||
 			    strchr(entry.mnt_special, '@') != NULL)
 				continue;
@@ -3459,8 +3463,10 @@ unshare_unmount_path(int op, char *path, int flags, boolean_t is_manual)
 	/*
 	 * Search for the given (major,minor) pair in the mount table.
 	 */
-	rewind(mnttab_file);
-	while ((ret = getextmntent(mnttab_file, &entry, 0)) == 0) {
+	 /* zfs-haiku */
+	/* rewind(mnttab_file); */
+	mnttab_cookie = 0;
+	while ((ret = getextmntent_haiku(&mnttab_cookie, &entry, 0)) == 0) {
 		if (entry.mnt_major == major(statbuf.st_dev) &&
 		    entry.mnt_minor == minor(statbuf.st_dev))
 			break;
@@ -3613,8 +3619,10 @@ unshare_unmount(int op, int argc, char **argv)
 		    ((tree = uu_avl_create(pool, NULL, UU_DEFAULT)) == NULL))
 			nomem();
 
-		rewind(mnttab_file);
-		while (getmntent(mnttab_file, &entry) == 0) {
+		/* zfs-haiku */
+		/* rewind(mnttab_file); */
+		mnttab_cookie = 0;
+		while (getmntent_haiku(&mnttab_cookie, &entry) == 0) {
 
 			/* ignore non-ZFS entries */
 			if (strcmp(entry.mnt_fstype, MNTTYPE_ZFS) != 0)
@@ -4080,11 +4088,15 @@ main(int argc, char **argv)
 
 	libzfs_print_on_error(g_zfs, B_TRUE);
 
+	/* zfs-haiku
 	if ((mnttab_file = fopen(MNTTAB, "r")) == NULL) {
 		(void) fprintf(stderr, gettext("internal error: unable to "
 		    "open %s\n"), MNTTAB);
 		return (1);
 	}
+	*/
+	
+	mnttab_cookie = 0;
 
 	/*
 	 * This command also doubles as the /etc/fs mount and unmount program.
@@ -4143,7 +4155,8 @@ main(int argc, char **argv)
 		libzfs_mnttab_cache(g_zfs, B_FALSE);
 	}
 
-	(void) fclose(mnttab_file);
+	/* zfs-haiku */
+	/* (void) fclose(mnttab_file); */
 
 	libzfs_fini(g_zfs);
 

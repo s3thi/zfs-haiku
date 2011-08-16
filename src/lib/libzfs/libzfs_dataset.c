@@ -598,8 +598,10 @@ libzfs_mnttab_update(libzfs_handle_t *hdl)
 {
 	struct mnttab entry;
 
-	rewind(hdl->libzfs_mnttab);
-	while (getmntent(hdl->libzfs_mnttab, &entry) == 0) {
+	/* zfs-haiku */
+	/* rewind(hdl->libzfs_mnttab); */
+	hdl->libzfs_mnttab_cookie = 0;
+	while (getmntent_haiku(&(hdl->libzfs_mnttab_cookie), &entry) == 0) {
 		mnttab_node_t *mtn;
 
 		if (strcmp(entry.mnt_fstype, MNTTYPE_ZFS) != 0)
@@ -649,7 +651,9 @@ libzfs_mnttab_find(libzfs_handle_t *hdl, const char *fsname,
 
 		if (avl_numnodes(&hdl->libzfs_mnttab_cache))
 			libzfs_mnttab_fini(hdl);
-		rewind(hdl->libzfs_mnttab);
+		/* zfs-haiku */
+		/* rewind(hdl->libzfs_mnttab); */
+		hdl->libzfs_mnttab_cookie = 0;
 		srch.mnt_special = (char *)fsname;
 		srch.mnt_fstype = MNTTYPE_ZFS;
 		if (getmntany(hdl->libzfs_mnttab, entry, &srch) == 0)

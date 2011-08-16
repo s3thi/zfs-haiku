@@ -617,11 +617,15 @@ libzfs_init(void)
 		return (NULL);
 	}
 
+	/* zfs-haiku
 	if ((hdl->libzfs_mnttab = fopen(MNTTAB, "r")) == NULL) {
 		(void) close(hdl->libzfs_fd);
 		free(hdl);
 		return (NULL);
 	}
+	*/
+
+	hdl->libzfs_mnttab_cookie = 0;
 
 	hdl->libzfs_sharetab = fopen("/etc/dfs/sharetab", "r");
 
@@ -636,8 +640,10 @@ void
 libzfs_fini(libzfs_handle_t *hdl)
 {
 	(void) close(hdl->libzfs_fd);
+	/* zfs-haiku
 	if (hdl->libzfs_mnttab)
 		(void) fclose(hdl->libzfs_mnttab);
+	*/
 	if (hdl->libzfs_sharetab)
 		(void) fclose(hdl->libzfs_sharetab);
 	zfs_uninit_libshare(hdl);

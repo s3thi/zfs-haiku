@@ -952,7 +952,9 @@ zfs_unshare_proto(zfs_handle_t *zhp, const char *mountpoint,
 	char *mntpt = NULL;
 
 	/* check to see if need to unmount the filesystem */
-	rewind(zhp->zfs_hdl->libzfs_mnttab);
+	/* zfs-haiku */
+	/* rewind(zhp->zfs_hdl->libzfs_mnttab); */
+	zhp->zfs_hdl->libzfs_mnttab_cookie = 0;
 	if (mountpoint != NULL)
 		mountpoint = mntpt = zfs_strdup(hdl, mountpoint);
 
@@ -1270,9 +1272,11 @@ zpool_disable_datasets(zpool_handle_t *zhp, boolean_t force)
 
 	namelen = strlen(zhp->zpool_name);
 
-	rewind(hdl->libzfs_mnttab);
+	/* zfs-haiku */
+	/* rewind(hdl->libzfs_mnttab); */
+	hdl->libzfs_mnttab_cookie = 0;
 	used = alloc = 0;
-	while (getmntent(hdl->libzfs_mnttab, &entry) == 0) {
+	while (getmntent_haiku(&(hdl->libzfs_mnttab_cookie), &entry) == 0) {
 		/*
 		 * Ignore non-ZFS entries.
 		 */
