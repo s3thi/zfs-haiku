@@ -256,13 +256,10 @@ zfs_is_mountable(zfs_handle_t *zhp, char *buf, size_t buflen,
 
 /*
  * Mount the given filesystem.
- * zfs-haiku: this is not needed now, but it will be needed in the future.
- * commenting it out just to get things to build.
  */
 int
 zfs_mount(zfs_handle_t *zhp, const char *options, int flags)
 {
-#if 0
 	struct stat buf;
 	char mountpoint[ZFS_MAXPROPLEN];
 	char mntopts[MNT_LINE_MAX];
@@ -346,20 +343,14 @@ zfs_mount(zfs_handle_t *zhp, const char *options, int flags)
 	libzfs_mnttab_add(hdl, zfs_get_name(zhp), mountpoint,
 	    mntopts);
 	return (0);
-#endif
-
-	return 0;
 }
 
 /*
  * Unmount a single filesystem.
- * zfs-haiku: this is not needed now, but it will be needed in the future.
- * stubbing this out to get code to build.
  */
 static int
 unmount_one(libzfs_handle_t *hdl, const char *mountpoint, int flags)
 {
-#if 0
 	if (umount2(mountpoint, flags) != 0) {
 		zfs_error_aux(hdl, strerror(errno));
 		return (zfs_error_fmt(hdl, EZFS_UMOUNTFAILED,
@@ -368,9 +359,6 @@ unmount_one(libzfs_handle_t *hdl, const char *mountpoint, int flags)
 	}
 
 	return (0);
-#endif
-
-	return 0;
 }
 
 /*
