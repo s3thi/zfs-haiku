@@ -33,6 +33,8 @@ struct extmnttab {
 extern char	*mntopt(char **);
 extern char* hasmntopt(struct mnttab *mnt, char *opt);
 extern int getmntent_haiku(int* cookie, struct mnttab* mp);
+extern int getmntany_haiku(int* cookie, struct mnttab *mgetp,
+						   struct mnttab *mrefp);
 
 #ifdef	__cplusplus
 }

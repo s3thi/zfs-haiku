@@ -699,8 +699,10 @@ zfs_path_to_zhandle(libzfs_handle_t *hdl, char *path, zfs_type_t argtype)
 		return (NULL);
 	}
 
-	rewind(hdl->libzfs_mnttab);
-	while ((ret = getextmntent(hdl->libzfs_mnttab, &entry, 0)) == 0) {
+	/* zfs-haiku */
+	/* rewind(hdl->libzfs_mnttab); */
+	hdl->libzfs_mnttab_cookie = 0;
+	while ((ret = getextmntent_haiku(&(hdl->libzfs_mnttab_cookie), &entry, 0)) == 0) {
 		if (makedevice(entry.mnt_major, entry.mnt_minor) ==
 		    statbuf.st_dev) {
 			break;

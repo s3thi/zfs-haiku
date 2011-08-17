@@ -654,7 +654,7 @@ libzfs_mnttab_find(libzfs_handle_t *hdl, const char *fsname,
 		hdl->libzfs_mnttab_cookie = 0;
 		srch.mnt_special = (char *)fsname;
 		srch.mnt_fstype = MNTTYPE_ZFS;
-		if (getmntany(hdl->libzfs_mnttab, entry, &srch) == 0)
+		if (getmntany_haiku(&(hdl->libzfs_mnttab_cookie), entry, &srch) == 0)
 			return (0);
 		else
 			return (ENOENT);

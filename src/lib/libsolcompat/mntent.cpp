@@ -84,6 +84,38 @@ getmntent_haiku(int* cookie, struct mnttab* mp)
 }
 
 
+int
+getmntany_haiku(int* cookie, struct mnttab *mgetp, struct mnttab *mrefp)
+{
+	struct mnttab current;
+	while (getmntent_haiku(cookie, &current) != -1) {
+		/* remember, strcmp() returns 0 on match */
+		if (mrefp->mnt_special && strcmp(mrefp->mnt_special, current.mnt_special))
+			continue;
+		if (mrefp->mnt_mountp && strcmp(mrefp->mnt_mountp, current.mnt_mountp))
+			continue;
+		if (mrefp->mnt_fstype && strcmp(mrefp->mnt_fstype, current.mnt_fstype))
+			continue;
+		if (mrefp->mnt_mntopts && strcmp(mrefp->mnt_mntopts, current.mnt_mntopts))
+			continue;
+		if (mrefp->mnt_time && strcmp(mrefp->mnt_time, current.mnt_time))
+			continue;
+		
+		/* if we've reached here, it's a match. fill up the struct. */
+		memcpy(mgetp, &current, sizeof(struct mnttab));
+		return 0;
+	}
+	
+	return -1;
+}
+
+
+int
+getextmntent_haiku(int* cookie, struct extmnttab *mp, int len)
+{
+}
+
+
 char*
 hasmntopt(struct mnttab *mnt, char *opt)
 {
