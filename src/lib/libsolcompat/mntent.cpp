@@ -6,9 +6,11 @@ typedef unsigned int uint_t;
 #include <storage/Path.h>
 #include <cstdio>
 #include <sys/mnttab.h>
+#include <sys/mntent.h>
 #include <sys/types.h>
 #include <string.h>
 #include <cstdlib>
+#include <ctype.h>
 
 #define MNTENT_MP_DEFAULT_OPTS "devices,exec,nonbmand,setuid,suid"
 #define MNTENT_MP_UNKNOWN "unknown"
@@ -80,4 +82,53 @@ getmntent_haiku(int* cookie, struct mnttab* mp)
 	
 	return 0;
 }
+
+
+char*
+hasmntopt(struct mnttab *mnt, char *opt)
+{
+	char tmpopts[MNT_LINE_MAX];
+	char *f, *opts = tmpopts;
+	size_t	len;
+
+	if (mnt->mnt_mntopts == NULL)
+		return (NULL);
+	(void) strcpy(opts, mnt->mnt_mntopts);
+	len = strlen(opt);
+	f = mntopt(&opts);
+	for (; *f; f = mntopt(&opts)) {
+		/*
+		 * Match only complete substrings. For options
+		 * which use a delimiter (such as 'retry=3'),
+		 * treat the delimiter as the end of the substring.
+		 */
+		if (strncmp(opt, f, len) == 0 &&
+		    (f[len] == '\0' || !isalnum(f[len])))
+			return (f - tmpopts + mnt->mnt_mntopts);
+	}
+	return (NULL);
 }
+
+char*
+mntopt(char **p)
+{
+	char *cp = *p;
+	char *retstr;
+
+	while (*cp && isspace(*cp))
+		cp++;
+
+	retstr = cp;
+	while (*cp && *cp != ',')
+		cp++;
+
+	if (*cp) {
+		*cp = '\0';
+		cp++;
+	}
+
+	*p = cp;
+	return (retstr);
+}
+
+} /* extern "C" */

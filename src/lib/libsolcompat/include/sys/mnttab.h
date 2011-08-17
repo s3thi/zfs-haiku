@@ -1,6 +1,10 @@
 #ifndef _SOL_SYS_MNTTAB_H
 #define _SOL_SYS_MNTTAB_H
 
+#ifdef	__cplusplus
+extern "C" {
+#endif
+
 #define	MNT_LINE_MAX 1024
 
 struct mnttab {
@@ -25,5 +29,13 @@ struct extmnttab {
 	uint_t mnt_major;
 	uint_t mnt_minor;
 };
+
+extern char	*mntopt(char **);
+extern char* hasmntopt(struct mnttab *mnt, char *opt);
+extern int getmntent_haiku(int* cookie, struct mnttab* mp);
+
+#ifdef	__cplusplus
+}
+#endif
 
 #endif /* _SOL_SYS_MNTTAB_H */
