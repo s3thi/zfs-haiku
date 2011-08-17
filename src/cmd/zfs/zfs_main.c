@@ -57,6 +57,9 @@
 #include "zfs_util.h"
 #include "zfs_comutil.h"
 
+/* zfs-haiku includes */
+#include <sys/sysmacros.h>
+
 libzfs_handle_t *g_zfs;
 
 /* zfs-haiku */
