@@ -7,7 +7,6 @@ StaticLibrary libsolcompat.a :
 	getexecname.c
 	u8_textprep.c
 	thread.c
-	wait.c
 	pthread_rwlock_tracking.c
 	gethostid.cpp
 	zone.c
