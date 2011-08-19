@@ -4,6 +4,7 @@ typedef unsigned int uint_t;
 #include <storage/Directory.h>
 #include <storage/StorageDefs.h>
 #include <storage/Path.h>
+#include <support/Locker.h>
 #include <cstdio>
 #include <sys/mnttab.h>
 #include <sys/mntent.h>
@@ -20,8 +21,11 @@ extern "C" {
 int
 getmntent_haiku(int* cookie, struct mnttab* mp)
 {
-	BVolumeRoster roster;
+	static BLocker mntent_locker;
+	mntent_locker.Lock();
 	
+	int ret = -1;
+	BVolumeRoster roster;
 	char buf[B_PATH_NAME_LENGTH];
 	int buflen = 0;
 	BVolume volume;
@@ -32,7 +36,7 @@ getmntent_haiku(int* cookie, struct mnttab* mp)
 	roster.Rewind();
 	for (int i = 0; i <= *cookie; i++)
 		if (roster.GetNextVolume(&volume) != B_NO_ERROR)
-			return -1;
+			goto bail;
 	
 	// volume name
 	volume.GetName(buf);
@@ -47,12 +51,10 @@ getmntent_haiku(int* cookie, struct mnttab* mp)
 	strlcpy(mp->mnt_special, buf, buflen+1);
 	
 	// mount point
-	if (volume.GetRootDirectory(&rootDir) != B_OK)
-		return -1;
-	if (rootDir.GetEntry(&rootDirEntry) != B_OK)
-		return -1;
-	if (rootDirEntry.GetPath(&rootDirPath) != B_OK)
-		return -1;
+	if (volume.GetRootDirectory(&rootDir) != B_OK ||
+		rootDir.GetEntry(&rootDirEntry) != B_OK   ||
+		rootDirEntry.GetPath(&rootDirPath) != B_OK)
+		goto bail;
 	
 	buflen = strlen(rootDirPath.Path());
 	mp->mnt_mountp = (char* )malloc(sizeof(char) * (buflen+1));
@@ -61,7 +63,7 @@ getmntent_haiku(int* cookie, struct mnttab* mp)
 	// partition type.
 	fs_info info;
 	if (fs_stat_dev(volume.Device(), &info) != B_OK)
-		return -1;
+		goto bail;
 	
 	buflen = strlen(info.fsh_name);
 	mp->mnt_fstype = (char* )malloc(sizeof(char) * (buflen+1));
@@ -79,8 +81,11 @@ getmntent_haiku(int* cookie, struct mnttab* mp)
 	strlcpy(mp->mnt_time, "0", buflen + 1);
 	
 	(*cookie)++;
-	
-	return 0;
+	ret = 0; /* success! */
+
+bail:
+	mntent_locker.Unlock();
+	return ret;
 }
 
 
@@ -113,6 +118,27 @@ getmntany_haiku(int* cookie, struct mnttab *mgetp, struct mnttab *mrefp)
 int
 getextmntent_haiku(int* cookie, struct extmnttab *mp, int len)
 {
+	static BLocker extmntent_locker;
+	extmntent_locker.Lock();
+	
+	BVolumeRoster roster;
+	BVolume volume;
+	int ret = -1;
+
+	roster.Rewind();
+	for (int i = 0; i <= *cookie; i++)
+		if (roster.GetNextVolume(&volume) != B_NO_ERROR)
+			return -1;
+
+	if (getmntent_haiku(cookie, (struct mnttab*)mp) == 0) {
+		mp->mnt_major = volume.Device();
+		mp->mnt_minor = volume.Device();
+		
+		ret = 0;
+	}
+	
+	extmntent_locker.Unlock();
+	return ret;
 }
 
 
