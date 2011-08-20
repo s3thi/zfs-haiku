@@ -1,0 +1,29 @@
+- Port zpool. zpool depends on libdiskmgt, which is a private API on Solaris.
+  Porting it wholesale to Haiku won't work. A better approach would be to
+  figure out what exactly zpool needs from libdiskmgt and then implement those
+  routines on Haiku.
+
+- libsolcompat should be tested thoroughly.
+
+- The port currently uses pthreads for threading (see thread.h in
+  libsolcompat). This approach will not work in the kernel. A compatibility
+  layer emulating the Solaris kernel threading API using the Haiku threading
+  API must be created.
+
+- kernel.c, taskq.c and util.c in lib/libzpool/common/ must be rewritten using
+  Haiku's threading API. These 3 files emulate part of the Solaris kernel API
+  in userland. ztest fails on Haiku purely because of threading issues in these
+  files.
+
+- Our libumem does nothing. It merely wraps malloc() and free(). libumem is not
+  strictly required for ZFS to work, but it helps while debugging memory
+  issues in userland. A portable version of libumem exists at
+  https://labs.omniti.com/labs/portableumem. This can be ported to Haiku if
+  desired.
+
+- libxdr should be tested.
+
+- The codebase is structured inconsistently. It should be restructured and the
+  build system adjusted appropriately.
+
+- The build system itself uses a few hacks here and there.
