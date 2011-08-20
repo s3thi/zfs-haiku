@@ -3,4 +3,3 @@ SubDir TOP src cmd ;
 SubInclude TOP src cmd ztest ;
 SubInclude TOP src cmd zdb ;
 SubInclude TOP src cmd zfs ;
-SubInclude TOP src cmd zpool ;
