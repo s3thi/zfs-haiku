@@ -12,4 +12,5 @@ StaticLibrary libsolcompat.a :
 	zone.c
 	mkdir.cpp
 	mntent.cpp
+	mount.cpp
 	;
